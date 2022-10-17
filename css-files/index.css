@@ -1,4 +1,7 @@
 
+* {
+  font-family: 'Roboto', sans-serif;
+}
 html, body, #calculator_exterior {
   display: flex;
   justify-content: center;
@@ -14,6 +17,7 @@ html {
   width: 400px;
   height: 600px;
   border: solid green;
+  background-color: black;
 }
 
 #calculator_display {
@@ -21,6 +25,7 @@ html {
   height: 100px;
   display: flex;
   border: solid red;
+  background-color: navajowhite
 }
 
 #buttons {
@@ -30,17 +35,14 @@ html {
   border: solid purple;
   flex-wrap: wrap;
 }
-.button_container {
+
+
+button {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 75px;
   width: 75px;
-}
-
-button {
-  height: 60px;
-  width: 60px;
   background-color: aliceblue;
 }
 
@@ -50,5 +52,32 @@ button {
   width: 270px;
   flex-wrap: wrap;
   justify-content: space-around;
-  border: solid red;
+  align-items: center;
+  background-color: red;
+}
+
+#zero, #equals {
+  width: 125px;
+}
+
+#miscellaneous {
+  display: flex;
+  width: 375px;
+  padding: 5px;
+  justify-content: space-around;
+  background-color: green;
+}
+
+#backspace {
+  width: 200px;
+}
+
+#operators {
+  background-color: blue;
+  height: 360px;
+  width: 105px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
