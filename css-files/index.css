@@ -40,12 +40,12 @@ html {
   padding-right: 15px;
 }
 
-#results {
-  font-size: 50px;
-}
-
 #user_input {
   font-size: 30px;
+}
+
+#results {
+  font-size: 50px;
 }
 
 #buttons {
@@ -76,6 +76,10 @@ button {
   align-items: center;
 }
 
+.number {
+  background-color: aliceblue
+}
+
 #miscellaneous {
   display: flex;
   width: 375px;
@@ -83,6 +87,11 @@ button {
   padding-left: 7.5px;
   padding-right: 15px;
   justify-content: space-between;
+}
+
+.misc {
+  background-color: rgb(203, 200, 200);
+  color-scheme: dark;
 }
 
 #backspace {
@@ -98,19 +107,10 @@ button {
   align-items: center;
 }
 
-.number {
-  background-color: aliceblue
-}
-
 .operator {
   background-color: rgb(255, 238, 238);
 }
 
 #equals {
   background-color: rgb(247, 255, 248);
-}
-
-.misc {
-  background-color: rgb(203, 200, 200);
-  color-scheme: dark;
 }
