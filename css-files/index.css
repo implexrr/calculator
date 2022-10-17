@@ -1,6 +1,7 @@
-
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'DS-Digital', sans-serif;
+  font-size: 26px;
+  font-weight: bolder;
 }
 html, body, #calculator_exterior {
   display: flex;
@@ -9,30 +10,49 @@ html, body, #calculator_exterior {
 }
 
 html {
-  background-color: rgb(255, 255, 255);
+  height: 100%;
+  width: 100%;
+  background: url('/images/greywatercolor.webp');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 #calculator_exterior {
   flex-direction: column;
   width: 400px;
   height: 600px;
-  border: solid green;
-  background-color: black;
-}
+  background-color: rgb(238, 234, 234);
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;}
 
 #calculator_display {
   width: 375px;
+  max-width: 375px;
   height: 100px;
   display: flex;
-  border: solid red;
-  background-color: navajowhite
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  background-color: grey;
+  box-sizing: border-box;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#results {
+  font-size: 50px;
+}
+
+#user_input {
+  font-size: 30px;
 }
 
 #buttons {
   display: flex;
   width: 375px;
   height: 450px;
-  border: solid purple;
+  margin-top: 10px;
   flex-wrap: wrap;
 }
 
@@ -44,6 +64,7 @@ button {
   height: 75px;
   width: 75px;
   background-color: aliceblue;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
 #numbers {
@@ -53,31 +74,43 @@ button {
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  background-color: red;
-}
-
-#zero, #equals {
-  width: 125px;
 }
 
 #miscellaneous {
   display: flex;
   width: 375px;
   padding: 5px;
-  justify-content: space-around;
-  background-color: green;
+  padding-left: 7.5px;
+  padding-right: 15px;
+  justify-content: space-between;
 }
 
 #backspace {
-  width: 200px;
+  width: 262px;
 }
 
 #operators {
-  background-color: blue;
   height: 360px;
   width: 105px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+}
+
+.number {
+  background-color: aliceblue
+}
+
+.operator {
+  background-color: rgb(255, 238, 238);
+}
+
+#equals {
+  background-color: rgb(247, 255, 248);
+}
+
+.misc {
+  background-color: rgb(203, 200, 200);
+  color-scheme: dark;
 }

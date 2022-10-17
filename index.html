@@ -4,21 +4,24 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+  <link href="http://fonts.cdnfonts.com/css/ds-digital" rel="stylesheet">
   <link rel="stylesheet" href="/css-files/index.css">
   <title>Calculator</title>
 </head>
 <body>
   <div id="calculator_exterior">
     <div id="calculator_display">
+      <div id="user_input">
+        88 × 88
+      </div>
+      <div id="results">
+        7744
+      </div>
     </div>
     <div id="buttons">
       <div id="miscellaneous">
         <button class="misc" id="clear">AC</button>
-        <button class="misc" id="dot">.</button>
-        <button class="misc" id="backspace">⌫</button>
+        <button class="misc" id="backspace">DELETE</button>
       </div>
       <div id="numbers">
         <button class="number">7</button>
@@ -31,17 +34,17 @@
         <button class="number">2</button>
         <button class="number">3</button>
         <button class="number" id="zero">0</button>
+        <button class="number" id="dot">.</button>
         <button class="operator" id="equals">=</button>
       </div>
       <div id="operators">
         <button class="operator">+</button>
         <button class="operator">-</button>
-        <button class="operator">x</button>
+        <button class="operator">×</button>
         <button class="operator">÷</button>
       </div>
     </div>
   </div>
-
 
   <script src="/js-files/index.js"></script>
 </body>
