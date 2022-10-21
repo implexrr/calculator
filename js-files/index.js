@@ -186,14 +186,19 @@ class Calculator {
       this.input2 = "";
       this.operator = e.target.textContent;
     }
-    else return;
-
 
     this.lastButtonOperator = true;
     this.lastButtonEqual = false;
     this.lastButtonNumber = false;
+    return;
   }
+
+
+
+
+
 }
+
 
 
 
@@ -215,3 +220,5 @@ let operators = document.querySelectorAll('.operator');
 for (let i = 0; i < operators.length; i++) {
   operators[i].addEventListener('click', calculator.boundPrepOperator);
 }
+
+equal.addEventListener('click', calculator.boundEquals);
