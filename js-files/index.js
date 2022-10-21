@@ -37,9 +37,10 @@ class Calculator {
     this.input2 = "";
     this.operator = "";
     this.result = "";
-    this.lastButtonEqual = false;
-    this.lastOperator = "";
     this.lastResult = "";
+    this.lastButtonEqual = false;
+    this.lastButtonOperator = false;
+    this.lastButtonNumber = false;
     this.input1DotPresent = false;
     this.input2DotPresent = false;
     
@@ -59,7 +60,7 @@ class Calculator {
   }
 
   divide () {
-    return (parseFloat(his.input1) / parseFloat(this.input2)).toString();
+    return (parseFloat(this.input1) / parseFloat(this.input2)).toString();
   }
 
   // Change operator value
@@ -70,10 +71,10 @@ class Calculator {
   // Preform operation (based on operator value)
   preformOperation () {
     switch (this.operator) {
-      case "add": return this.add();
-      case "subtract": return this.subtract();
-      case "multiply": return this.multiply();
-      case "divide": return this.divide();
+      case "+": return this.add();
+      case "-": return this.subtract();
+      case "×": return this.multiply();
+      case "÷": return this.divide();
     }
   }
 
@@ -126,7 +127,8 @@ class Calculator {
           this.operator = "";
           this.result = "";
           this.lastButtonEqual = false;
-          this.lastOperator = "";
+          this.lastButtonOperator = false;
+          this.lastButtonNumber = true;
           this.input1DotPresent = false;
           this.input2DotPresent = false;
           results.textContent = this.input1;
@@ -146,18 +148,50 @@ class Calculator {
         }
       }
     }
-
+    this.lastButtonOperator = false;
+    this.lastButtonEqual = false;
+    this.lastButtonNumber = true;
     // DEBUGGING STATEMENT
     console.log(this);
-  }
-  divide () {
-    return (parseFloat(his.input1) / parseFloat(this.input2)).toString();
   }
 
   boundPrepOperator = this.prepOperator.bind(this);
 
-  prepOperator(e) {
-    console.log("hello");
+  prepOperator (e) {
+    // Either just the operator changes
+    // Or the the operator changes and so do the inputs
+    // Or nothing happens at all
+
+    // Nothing happens at all (if there are no inputs)
+    if (this.input1 == "" && this.input2 == "") return;
+
+    // Add operator (or change oeprator, which only happens if last button was operator)
+    else if ((this.input1 == "" && this.input2 != "") || (this.input1 != "" && this.input2 == "") || this.lastButtonOperator == true) {
+      this.operator = e.target.textContent;
+      this.lastButtonOperator = true;
+    }
+
+    // Prep new operation (after equals is pressed)
+    else if (this.input1 != "" && this.input2 != "" && this.lastButtonNumber == true) {
+      this.result = this.preformOperation(this.input1, this.input2);
+      results.textContent = this.result;
+      this.input1 = this.result;
+      this.input2 = "";
+      this.operator = e.target.textContent;
+    }
+
+    else if (this.lastButtonEqual == true) {
+      console.log('adjsndkajs');
+      this.input1 = this.result;
+      this.input2 = "";
+      this.operator = e.target.textContent;
+    }
+    else return;
+
+
+    this.lastButtonOperator = true;
+    this.lastButtonEqual = false;
+    this.lastButtonNumber = false;
   }
 }
 
