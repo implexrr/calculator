@@ -19,8 +19,17 @@ let results = document.querySelector("#results");
 
 
 
+
 // Template for objects of type calculator
 class Calculator {
+
+// TODO
+// parent classes operator, operatorAdder and recorder?
+// Initialize function?
+// Dot handler function?
+// Extender function?
+// First input letter function?
+
   constructor() {
     // Initialize everything
     console.log("Calculation initialized...");
@@ -69,6 +78,7 @@ class Calculator {
   }
 
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
+  
   record (e) {
 
     // If input1 is empty
@@ -140,17 +150,34 @@ class Calculator {
     // DEBUGGING STATEMENT
     console.log(this);
   }
+  divide () {
+    return (parseFloat(his.input1) / parseFloat(this.input2)).toString();
+  }
+
+  boundPrepOperator = this.prepOperator.bind(this);
+
+  prepOperator(e) {
+    console.log("hello");
+  }
 }
+
+
+
+
+
+
 
 // Create new calculator object
-let calculation = new Calculator();
+let calculator = new Calculator();
 
 
-// Add "Record" functionality from calculator class onto all buttons with class "number"
+// Add "Record" functionality from Calculator class onto all buttons with html class="number"
 let numbers = document.querySelectorAll('.number');
 for (let i = 0; i < numbers.length; i++) {
-  numbers[i].addEventListener('click', calculation.boundRecord);
+  numbers[i].addEventListener('click', calculator.boundRecord);
 }
 
-
-
+let operators = document.querySelectorAll('.operator');
+for (let i = 0; i < operators.length; i++) {
+  operators[i].addEventListener('click', calculator.boundPrepOperator);
+}
