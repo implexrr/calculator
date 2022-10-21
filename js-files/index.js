@@ -37,7 +37,7 @@ class Calculator {
     this.input2 = "";
     this.operator = "";
     this.result = "";
-    this.lastResult = "";
+    this.lastOperationNumber = "";
     this.lastButtonEqual = false;
     this.lastButtonOperator = false;
     this.lastButtonNumber = false;
@@ -79,7 +79,6 @@ class Calculator {
   }
 
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
-  
   record (e) {
 
     // If input1 is empty
@@ -122,16 +121,29 @@ class Calculator {
           if (e.target.textContent == ".") return; // Except when there's a "." -- in this case, do nothing
 
           // Reset everything
+
           this.input1 = e.target.textContent;
           this.input2 = "";
           this.operator = "";
           this.result = "";
+          this.lastOperationNumber = "";
           this.lastButtonEqual = false;
           this.lastButtonOperator = false;
-          this.lastButtonNumber = true;
+          this.lastButtonNumber = false;
           this.input1DotPresent = false;
           this.input2DotPresent = false;
-          results.textContent = this.input1;
+          results.textContent = this.input1
+
+          // this.input1 = e.target.textContent;
+          // this.input2 = "";
+          // this.operator = "";
+          // this.result = "";
+          // this.lastButtonEqual = false;
+          // this.lastButtonOperator = false;
+          // this.lastButtonNumber = true;
+          // this.input1DotPresent = false;
+          // this.input2DotPresent = false;
+          // results.textContent = this.input1;
         }
 
         // Last button was not equals, so we want to extend input2 string
@@ -156,7 +168,6 @@ class Calculator {
   }
 
   boundPrepOperator = this.prepOperator.bind(this);
-
   prepOperator (e) {
     // Either just the operator changes
     // Or the the operator changes and so do the inputs
@@ -171,7 +182,7 @@ class Calculator {
       this.lastButtonOperator = true;
     }
 
-    // Prep new operation (after equals is pressed)
+    // Continue operation (operator present, all inputs filled)
     else if (this.input1 != "" && this.input2 != "" && this.lastButtonNumber == true) {
       this.result = this.preformOperation(this.input1, this.input2);
       results.textContent = this.result;
@@ -180,6 +191,7 @@ class Calculator {
       this.operator = e.target.textContent;
     }
 
+    // Prep new operation (after equals is pressed)
     else if (this.lastButtonEqual == true) {
       this.input1 = this.result;
       this.input2 = "";
@@ -193,8 +205,29 @@ class Calculator {
   }
   
   boundEquals = this.equals.bind(this);
-
   equals (e) {
+    if (this.input1 == "" && this.input1 == "") return; // If there aren't any inputs then there's nothing to do
+
+    // If both inputs are full, we should preform the relevant operation
+    else if (this.input1 != "" && this.input2 != "") {
+      this.result = this.preformOperation(this.input1, this.input2);
+      results.textContent = this.result;
+      this.input1 = this.result;
+      this.lastOperationNumber = this.input2
+      this.input2 = "";
+    }
+
+    // If the last button was "equals", then we simply continue the operation
+    else if (this.lastButtonEqual == true) {
+      this.input2 = this.lastOperationNumber;
+      this.result = this.preformOperation(this.input1, this.input2);
+      results.textContent = this.result;
+      this.input1 = this.result;
+      this.input2 = "";
+    }
+
+
+
     this.lastButtonOperator = false;
     this.lastButtonEqual = true;
     this.lastButtonNumber = false;
