@@ -181,7 +181,6 @@ class Calculator {
     }
 
     else if (this.lastButtonEqual == true) {
-      console.log('adjsndkajs');
       this.input1 = this.result;
       this.input2 = "";
       this.operator = e.target.textContent;
@@ -192,7 +191,14 @@ class Calculator {
     this.lastButtonNumber = false;
     return;
   }
+  
+  boundEquals = this.equals.bind(this);
 
+  equals (e) {
+    this.lastButtonOperator = false;
+    this.lastButtonEqual = true;
+    this.lastButtonNumber = false;
+  }
 
 
 
