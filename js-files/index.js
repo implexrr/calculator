@@ -329,7 +329,6 @@ document.addEventListener('keydown', (e) => {
     case "-": minus.click(); break;
     case "*": multiply.click(); break;
     case "/": divide.click(); break;
-
   }
 
 });
