@@ -105,7 +105,7 @@ class Calculator {
       this.input2DotPresent = false;
       results.textContent = this.input1
 
-    }    
+    } 
     // If input1 is empty
     else if (this.input1 == "") {
       if (e.target.textContent == ".") return; // Do nothing if user input is "."
@@ -123,7 +123,7 @@ class Calculator {
         // Dot handling process
         if ((e.target.textContent == ".") && (this.input1DotPresent == true)) return;  // Do nothing if user input is "." and dot is present in input1 string already
         if (e.target.textContent == ".") this.input1DotPresent = true;                // If dot not already present, change state of "dot present" to true
-        
+        if (e.target.textContent == "0" && parseFloat(this.input1) == 0 && this.input1DotPresent == false) return; // Zero handler
         // Record user input, extend input1 string and display on results window for calculator
         this.input1 = this.input1.concat(e.target.textContent).slice(0,8);
         results.textContent = this.input1;
@@ -143,6 +143,7 @@ class Calculator {
       // Dot handling process
       if ((e.target.textContent == ".") && (this.input2DotPresent == true)) return;  // Do nothing if user input is "." and dot is present in input2 string already
       if (e.target.textContent == ".") this.input2DotPresent = true;                // If dot not already present, change state of "dot present" to true
+      if (e.target.textContent == "0" && parseFloat(this.input2) == 0 && this.input2DotPresent == false) return; // Zero handler
 
       // Record user input, extend input2 string and display on results window for calculator
       this.input2 = this.input2.concat(e.target.textContent).slice(0,8);
