@@ -11,6 +11,8 @@ let nine = document.querySelector("#nine");
 let multi = document.querySelector("#multiply");
 let equal = document.querySelector("#equals");
 let results = document.querySelector("#results");
+let backspace = document.querySelector("#backspace");
+let clear = document.querySelector("clear");
 
 
 
@@ -96,7 +98,7 @@ class Calculator {
       if (this.operator == "") {
 
         // Dot handling process
-        if ((e.target.textContent == ".") && (this.input1DotPresent== true)) return;  // Do nothing if user input is "." and dot is present in input1 string already
+        if ((e.target.textContent == ".") && (this.input1DotPresent == true)) return;  // Do nothing if user input is "." and dot is present in input1 string already
         if (e.target.textContent == ".") this.input1DotPresent = true;                // If dot not already present, change state of "dot present" to true
         
         // Record user input, extend input1 string and display on results window for calculator
@@ -105,10 +107,9 @@ class Calculator {
       }
       
       // Input1, operator both nonempty, but input2 is empty
-      else if (this.input2 = "") {
+      else if (this.input2 == "") {
         if (e.target.textContent == ".") return; // Do nothing if user input is "."
-
-        // Record user input, extend input2 string and display on results window for calculator
+        // Write user input into input2, display input2 on results window for calculator
         this.input2 = e.target.textContent;
         results.textContent = this.input2;
       }
@@ -134,28 +135,17 @@ class Calculator {
           this.input2DotPresent = false;
           results.textContent = this.input1
 
-          // this.input1 = e.target.textContent;
-          // this.input2 = "";
-          // this.operator = "";
-          // this.result = "";
-          // this.lastButtonEqual = false;
-          // this.lastButtonOperator = false;
-          // this.lastButtonNumber = true;
-          // this.input1DotPresent = false;
-          // this.input2DotPresent = false;
-          // results.textContent = this.input1;
         }
 
         // Last button was not equals, so we want to extend input2 string
         else {
 
           // Dot handling process
-          if ((e.target.textContent == ".") && (this.input2DotPresent== true)) return;  // Do nothing if user input is "." and dot is present in input2 string already
+          if ((e.target.textContent == ".") && (this.input2DotPresent == true)) return;  // Do nothing if user input is "." and dot is present in input2 string already
           if (e.target.textContent == ".") this.input2DotPresent = true;                // If dot not already present, change state of "dot present" to true
 
-
-          // Write user input into input2, display input2 on results window for calculator
-          this.input2 = this.input2.toString().concat(e.target.textContent);
+          // Record user input, extend input2 string and display on results window for calculator
+          this.input2 = this.input2.concat(e.target.textContent);
           results.textContent = this.input2;
         }
       }
@@ -206,7 +196,8 @@ class Calculator {
   
   boundEquals = this.equals.bind(this);
   equals (e) {
-    if (this.input1 == "" && this.input1 == "") return; // If there aren't any inputs then there's nothing to do
+    if (this.operator == "" || this.lastButtonOperator == true) return; // If operator is empty or user just pressed operator, nothing todo
+
 
     // If both inputs are full, we should preform the relevant operation
     else if (this.input1 != "" && this.input2 != "") {
@@ -231,6 +222,11 @@ class Calculator {
     this.lastButtonOperator = false;
     this.lastButtonEqual = true;
     this.lastButtonNumber = false;
+  }
+
+  boundBackspace = this.backspace.bind(this);
+  backspace (e) {
+    console.log('hello');
   }
 
 
@@ -261,3 +257,5 @@ for (let i = 0; i < operators.length; i++) {
 }
 
 equal.addEventListener('click', calculator.boundEquals);
+
+backspace.addEvenetListener('click', calculator.boundBackspace);
