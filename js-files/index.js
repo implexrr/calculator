@@ -30,17 +30,14 @@ let clear = document.querySelector("#clear");
 // Template for objects of type calculator
 class Calculator {
 
-// TODO
-// parent classes operator, operatorAdder and recorder?
-// Initialize function?
-// Dot handler function?
-// Extender function?
-// First input letter function?
-// NO DIV BY ZERO
-
   constructor() {
     // Initialize everything
-    console.log("Calculation initialized...");
+    this.initialize();
+    
+  }
+
+  initialize () {
+    console.log("Calculator initialized...");
     this.input1 = "";
     this.input2 = "";
     this.operator = "";
@@ -53,9 +50,7 @@ class Calculator {
     this.input2DotPresent = false;
     this.input1Write = false;
     this.input2Write = false;
-    
   }
-
   // Basic arithmetic functions
   add () {
     return (parseFloat(this.input1) + parseFloat(this.input2)).toString()
@@ -95,19 +90,11 @@ class Calculator {
       if (e.target.textContent == ".") return; // Except when there's a "." -- in this case, do nothing
 
       // Reset everything
-      this.input1 = e.target.textContent;
-      this.input2 = "";
-      this.operator = "";
-      this.result = "";
-      this.lastOperationNumber = "";
-      this.lastButtonEqual = false;
-      this.lastButtonOperator = false;
-      this.lastButtonNumber = false;
-      this.input1DotPresent = false;
-      this.input2DotPresent = false;
-      this.input1Write = true;
-      this.input2Write = false;
-      results.textContent = this.input1
+      this.initialize();
+
+      // Write into input1
+      this.input1 = this.input1.concat(e.target.textContent).slice(0,8);
+      results.textContent = this.input1;
 
     } 
     // If input1 is empty
