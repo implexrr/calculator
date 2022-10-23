@@ -36,6 +36,7 @@ class Calculator {
 // Dot handler function?
 // Extender function?
 // First input letter function?
+// NO DIV BY ZERO
 
   constructor() {
     // Initialize everything
@@ -87,7 +88,6 @@ class Calculator {
 
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
   record (e) {
-    e.target.style.backgroundColor = 'red';
     // If last button was "equals", the operation must have completed already, so we reset everything
     if (this.lastButtonEqual == true) {
       if (e.target.textContent == ".") return; // Except when there's a "." -- in this case, do nothing
@@ -159,7 +159,6 @@ class Calculator {
 
   boundPrepOperator = this.prepOperator.bind(this);
   prepOperator (e) {
-    e.target.style.backgroundColor = 'red';
     // Either just the operator changes
     // Or the the operator changes and so do the inputs
     // Or nothing happens at all
@@ -176,14 +175,20 @@ class Calculator {
     // Continue operation (operator present, all inputs filled)
     else if (this.input1 != "" && this.input2 != "" && this.lastButtonNumber == true) {
       this.result = this.preformOperation(this.input1, this.input2);
-      if ((this.operator == "÷" || this.operator == "-") && parseFloat(this.result) <= 6.25e-8) this.result = "0"; // upperlimit
-      if ((this.operator == "+" || this.operator == "×") && parseFloat(this.result) >= 99999999) this.result = "99999999"; // lowerlimit
+
+      // Limit handler
+      if (this.result >= 99999999) this.result = "99999999";
+      else if (this.result <= -9999999) this.result = "-9999999";
+      else if ((this.result <= 6.25e-8) && (this.result >= 0)) this.result = "0";
       this.result = this.result.slice(0,8);
       results.textContent = this.result;
       this.input1 = this.result;
       this.input2 = "";
       this.operator = e.target.textContent;
     }
+
+
+
 
     // Prep new operation (after equals is pressed)
     else if (this.lastButtonEqual == true) {
@@ -200,19 +205,17 @@ class Calculator {
   
   boundEquals = this.equals.bind(this);
   equals (e) {
-    e.target.style.backgroundColor = 'red';
 
-    // WAS HERE
-    // if ((this.operator == "÷" || this.operator == "-") && parseFloat(this.result) <= 6.25e-8) return; // upperlimit
-    // if ((this.operator == "+" || this.operator == "×") && parseFloat(this.result) >= 99999999) return; // lowerlimit
     if (this.operator == "" || this.lastButtonOperator == true) return; // If operator is empty or user just pressed operator, nothing todo
 
 
     // If both inputs are full, we should preform the relevant operation
     else if (this.input1 != "" && this.input2 != "") {
       this.result = this.preformOperation(this.input1, this.input2);
-      if ((this.operator == "÷" || this.operator == "-") && parseFloat(this.result) <= 6.25e-8) this.result = "0"; // upperlimit
-      if ((this.operator == "+" || this.operator == "×") && parseFloat(this.result) >= 99999999) this.result = "99999999"; // lowerlimit
+      // Limit handler
+      if (this.result >= 99999999) this.result = "99999999";
+      else if (this.result <= -9999999) this.result = "-9999999";
+      else if ((this.result <= 6.25e-8) && (this.result >= 0)) this.result = "0";
       this.result = this.result.slice(0,8);
       results.textContent = this.result;
       this.input1 = this.result;
@@ -224,8 +227,10 @@ class Calculator {
     else if (this.lastButtonEqual == true) {
       this.input2 = this.lastOperationNumber;
       this.result = this.preformOperation(this.input1, this.input2);
-      if ((this.operator == "÷" || this.operator == "-") && parseFloat(this.result) <= 6.25e-8) this.result = "0"; // upperlimit
-      if ((this.operator == "+" || this.operator == "×") && parseFloat(this.result) >= 99999999) this.result = "99999999"; // lowerlimit
+      // Limit handler
+      if (this.result >= 99999999) this.result = "99999999";
+      else if (this.result <= -9999999) this.result = "-9999999";
+      else if ((this.result <= 6.25e-8) && (this.result >= 0)) this.result = "0";
       this.result = this.result.slice(0,8);
       results.textContent = this.result;
       this.input1 = this.result;
@@ -241,7 +246,6 @@ class Calculator {
 
   boundBackspace = this.backspace.bind(this);
   backspace (e) {
-    e.target.style.backgroundColor = 'red';
     if (this.lastButtonNumber != true) return;
     if (this.input2 != "") {
       this.input2 = this.input2.slice(0,-1);
@@ -256,7 +260,6 @@ class Calculator {
   boundClear = this.clear.bind(this);
 
   clear (e) {
-    e.target.style.backgroundColor = 'red';
     // Reset everything
     this.input1 = "";
     this.input2 = "";
