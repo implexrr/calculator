@@ -280,8 +280,22 @@ backspace.addEventListener('click', calculator.boundBackspace);
 clear.addEventListener('click', calculator.boundClear);
 
 
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keypress', (e) => {
+    console.log(e.shiftKey);
+    console.log(e.key);
+
+
+  // }
+  
   let name = e.key;
+  // alert(name);
+  // alert(e.shiftKey);
+  switch (name) {
+    case "+": return this.add();
+    case "-": return this.subtract();
+    case "×": return this.multiply();
+    case "÷": return this.divide();
+  }
   if (name == "9") {
     nine.click();
   }
