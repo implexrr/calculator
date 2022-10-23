@@ -1,4 +1,5 @@
 // Assign unique variables to each button
+let zero = document.querySelector("#zero");
 let one = document.querySelector("#one");
 let two = document.querySelector("#two");
 let three = document.querySelector("#three");
@@ -8,7 +9,11 @@ let six = document.querySelector("#six");
 let seven = document.querySelector("#seven");
 let eight = document.querySelector("#eight");
 let nine = document.querySelector("#nine");
-let multi = document.querySelector("#multiply");
+let dot = document.querySelector("#dot");
+let plus = document.querySelector("#plus");
+let minus = document.querySelector("#minus");
+let divide = document.querySelector("#divide");
+let multiply = document.querySelector("#multiply");
 let equal = document.querySelector("#equals");
 let results = document.querySelector("#results");
 let backspace = document.querySelector("#backspace");
@@ -82,6 +87,7 @@ class Calculator {
 
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
   record (e) {
+    e.target.style.backgroundColor = 'red';
     // If last button was "equals", the operation must have completed already, so we reset everything
     if (this.lastButtonEqual == true) {
       if (e.target.textContent == ".") return; // Except when there's a "." -- in this case, do nothing
@@ -152,6 +158,7 @@ class Calculator {
 
   boundPrepOperator = this.prepOperator.bind(this);
   prepOperator (e) {
+    e.target.style.backgroundColor = 'red';
     // Either just the operator changes
     // Or the the operator changes and so do the inputs
     // Or nothing happens at all
@@ -189,6 +196,7 @@ class Calculator {
   
   boundEquals = this.equals.bind(this);
   equals (e) {
+    e.target.style.backgroundColor = 'red';
     if (this.operator == "" || this.lastButtonOperator == true) return; // If operator is empty or user just pressed operator, nothing todo
 
 
@@ -219,6 +227,7 @@ class Calculator {
 
   boundBackspace = this.backspace.bind(this);
   backspace (e) {
+    e.target.style.backgroundColor = 'red';
     if (this.lastButtonNumber != true) return;
     if (this.input2 != "") {
       this.input2 = this.input2.slice(0,-1);
@@ -233,6 +242,7 @@ class Calculator {
   boundClear = this.clear.bind(this);
 
   clear (e) {
+    e.target.style.backgroundColor = 'red';
     // Reset everything
     this.input1 = "";
     this.input2 = "";
@@ -280,23 +290,32 @@ backspace.addEventListener('click', calculator.boundBackspace);
 clear.addEventListener('click', calculator.boundClear);
 
 
-document.addEventListener('keypress', (e) => {
-    console.log(e.shiftKey);
-    console.log(e.key);
+document.addEventListener('keydown', (e) => {
 
-
-  // }
-  
   let name = e.key;
-  // alert(name);
-  // alert(e.shiftKey);
+  console.log(e.key);
+
+  // TODO convert e.key from string to variable in a better way
   switch (name) {
-    case "+": return this.add();
-    case "-": return this.subtract();
-    case "×": return this.multiply();
-    case "÷": return this.divide();
+    case "1": one.click(); break;
+    case "2": two.click(); break;
+    case "3": three.click(); break;
+    case "4": four.click(); break;
+    case "5": five.click(); break;
+    case "6": six.click(); break;
+    case "7": seven.click(); break;
+    case "8": eight.click(); break;
+    case "9": nine.click(); break;
+    case "0": zero.click(); break;
+    case ".": dot.click(); break;
+    case "Backspace": backspace.click(); break;
+    case "c": clear.click(); break;
+    case "Enter": equal.click(); break;
+    case "+": plus.click(); break;
+    case "-": minus.click(); break;
+    case "*": multiply.click(); break;
+    case "/": divide.click(); break;
+
   }
-  if (name == "9") {
-    nine.click();
-  }
+
 });
