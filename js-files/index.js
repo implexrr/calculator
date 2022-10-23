@@ -278,3 +278,12 @@ equal.addEventListener('click', calculator.boundEquals);
 backspace.addEventListener('click', calculator.boundBackspace);
 
 clear.addEventListener('click', calculator.boundClear);
+
+
+document.addEventListener('keydown', (e) => {
+  let name = e.key;
+  let code = e.code;
+  if (name == "9") {
+    nine.click();
+  }
+});
