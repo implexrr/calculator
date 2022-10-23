@@ -12,7 +12,7 @@ let multi = document.querySelector("#multiply");
 let equal = document.querySelector("#equals");
 let results = document.querySelector("#results");
 let backspace = document.querySelector("#backspace");
-let clear = document.querySelector("clear");
+let clear = document.querySelector("#clear");
 
 
 
@@ -82,7 +82,6 @@ class Calculator {
 
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
   record (e) {
-
     // If last button was "equals", the operation must have completed already, so we reset everything
     if (this.lastButtonEqual == true) {
       if (e.target.textContent == ".") return; // Except when there's a "." -- in this case, do nothing
@@ -231,7 +230,23 @@ class Calculator {
     }
   }
 
-  
+  boundClear = this.clear.bind(this);
+
+  clear (e) {
+    // Reset everything
+    this.input1 = "";
+    this.input2 = "";
+    this.operator = "";
+    this.result = "";
+    this.lastOperationNumber = "";
+    this.lastButtonEqual = false;
+    this.lastButtonOperator = false;
+    this.lastButtonNumber = false;
+    this.input1DotPresent = false;
+    this.input2DotPresent = false;
+    results.textContent = "";
+  }
+
 
 
 }
@@ -261,3 +276,5 @@ for (let i = 0; i < operators.length; i++) {
 equal.addEventListener('click', calculator.boundEquals);
 
 backspace.addEventListener('click', calculator.boundBackspace);
+
+clear.addEventListener('click', calculator.boundClear);
