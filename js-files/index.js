@@ -55,19 +55,19 @@ class Calculator {
 
   // Basic arithmetic functions
   add () {
-    return (parseFloat(this.input1) + parseFloat(this.input2)).toString().slice(0,8);
+    return (parseFloat(this.input1) + parseFloat(this.input2)).toString()
   }
 
   subtract () {
-    return (parseFloat(this.input1) - parseFloat(this.input2)).toString().slice(0,8);
+    return (parseFloat(this.input1) - parseFloat(this.input2)).toString()
   }
 
   multiply () {
-    return (parseFloat(this.input1) * parseFloat(this.input2)).toString().slice(0,8);
+    return (parseFloat(this.input1) * parseFloat(this.input2)).toString()
   }
 
   divide () {
-    return (parseFloat(this.input1) / parseFloat(this.input2)).toString().slice(0,8);
+    return (parseFloat(this.input1) / parseFloat(this.input2)).toString()
   }
 
   // Change operator value
@@ -176,6 +176,9 @@ class Calculator {
     // Continue operation (operator present, all inputs filled)
     else if (this.input1 != "" && this.input2 != "" && this.lastButtonNumber == true) {
       this.result = this.preformOperation(this.input1, this.input2);
+      if ((this.operator == "÷" || this.operator == "-") && parseFloat(this.result) <= 6.25e-8) this.result = "0"; // upperlimit
+      if ((this.operator == "+" || this.operator == "×") && parseFloat(this.result) >= 99999999) this.result = "99999999"; // lowerlimit
+      this.result = this.result.slice(0,8);
       results.textContent = this.result;
       this.input1 = this.result;
       this.input2 = "";
@@ -198,12 +201,19 @@ class Calculator {
   boundEquals = this.equals.bind(this);
   equals (e) {
     e.target.style.backgroundColor = 'red';
+
+    // WAS HERE
+    // if ((this.operator == "÷" || this.operator == "-") && parseFloat(this.result) <= 6.25e-8) return; // upperlimit
+    // if ((this.operator == "+" || this.operator == "×") && parseFloat(this.result) >= 99999999) return; // lowerlimit
     if (this.operator == "" || this.lastButtonOperator == true) return; // If operator is empty or user just pressed operator, nothing todo
 
 
     // If both inputs are full, we should preform the relevant operation
     else if (this.input1 != "" && this.input2 != "") {
       this.result = this.preformOperation(this.input1, this.input2);
+      if ((this.operator == "÷" || this.operator == "-") && parseFloat(this.result) <= 6.25e-8) this.result = "0"; // upperlimit
+      if ((this.operator == "+" || this.operator == "×") && parseFloat(this.result) >= 99999999) this.result = "99999999"; // lowerlimit
+      this.result = this.result.slice(0,8);
       results.textContent = this.result;
       this.input1 = this.result;
       this.lastOperationNumber = this.input2
@@ -214,6 +224,9 @@ class Calculator {
     else if (this.lastButtonEqual == true) {
       this.input2 = this.lastOperationNumber;
       this.result = this.preformOperation(this.input1, this.input2);
+      if ((this.operator == "÷" || this.operator == "-") && parseFloat(this.result) <= 6.25e-8) this.result = "0"; // upperlimit
+      if ((this.operator == "+" || this.operator == "×") && parseFloat(this.result) >= 99999999) this.result = "99999999"; // lowerlimit
+      this.result = this.result.slice(0,8);
       results.textContent = this.result;
       this.input1 = this.result;
       this.input2 = "";
