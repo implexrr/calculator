@@ -51,6 +51,8 @@ class Calculator {
     this.lastButtonNumber = false;
     this.input1DotPresent = false;
     this.input2DotPresent = false;
+    this.input1Write = false;
+    this.input2Write = false;
     
   }
 
@@ -103,6 +105,8 @@ class Calculator {
       this.lastButtonNumber = false;
       this.input1DotPresent = false;
       this.input2DotPresent = false;
+      this.input1Write = true;
+      this.input2Write = false;
       results.textContent = this.input1
 
     } 
@@ -111,6 +115,8 @@ class Calculator {
       if (e.target.textContent == ".") return; // Do nothing if user input is "."
       
       // Write user input into input1, display input1 on results window for calculator
+      this.input1Write = true;
+      this.input2Write = false;
       this.input1 = e.target.textContent;
       results.textContent = this.input1;
     }
@@ -125,6 +131,8 @@ class Calculator {
         if (e.target.textContent == ".") this.input1DotPresent = true;                // If dot not already present, change state of "dot present" to true
         if (e.target.textContent == "0" && parseFloat(this.input1) == 0 && this.input1DotPresent == false) return; // Zero handler
         // Record user input, extend input1 string and display on results window for calculator
+        this.input1Write = true;
+        this.input2Write = false;
         this.input1 = this.input1.concat(e.target.textContent).slice(0,8);
         results.textContent = this.input1;
       }
@@ -133,6 +141,8 @@ class Calculator {
       else if (this.input2 == "") {
         if (e.target.textContent == ".") return; // Do nothing if user input is "."
         // Write user input into input2, display input2 on results window for calculator
+        this.input1Write = false;
+        this.input2Write = true;
         this.input2 = e.target.textContent;
         results.textContent = this.input2;
       }
@@ -146,6 +156,8 @@ class Calculator {
       if (e.target.textContent == "0" && parseFloat(this.input2) == 0 && this.input2DotPresent == false) return; // Zero handler
 
       // Record user input, extend input2 string and display on results window for calculator
+      this.input1Write = false;
+      this.input2Write = true;
       this.input2 = this.input2.concat(e.target.textContent).slice(0,8);
       results.textContent = this.input2;
       }
@@ -174,6 +186,12 @@ class Calculator {
 
     // Continue operation (operator present, all inputs filled)
     else if (this.input1 != "" && this.input2 != "" && this.lastButtonNumber == true) {
+
+      // Division by zero handler
+      if ((this.operator == "÷") && (this.input2 == "0")) {
+        alert("Can't divide by zero!");
+        return;
+      }
       this.result = this.preformOperation(this.input1, this.input2);
 
       // Limit handler
@@ -207,10 +225,15 @@ class Calculator {
   equals (e) {
 
     if (this.operator == "" || this.lastButtonOperator == true) return; // If operator is empty or user just pressed operator, nothing todo
-
+    if (this.input2 == "" && this.lastOperationNumber == "") return // No inputs to work with, otherwise would return NaN
 
     // If both inputs are full, we should preform the relevant operation
     else if (this.input1 != "" && this.input2 != "") {
+      // Division by zero handler
+      if ((this.operator == "÷") && (this.input2 == "0")) {
+        alert("Can't divide by zero!");
+        return;
+      }
       this.result = this.preformOperation(this.input1, this.input2);
       // Limit handler
       if (this.result >= 99999999) this.result = "99999999";
@@ -246,12 +269,15 @@ class Calculator {
 
   boundBackspace = this.backspace.bind(this);
   backspace (e) {
+    // I WAS HERE
     if (this.lastButtonNumber != true) return;
-    if (this.input2 != "") {
+    if (this.input2Write == true) {
+      console.log("erasing input2");
       this.input2 = this.input2.slice(0,-1);
       results.textContent = this.input2;
     }
-    if (this.input1 != "") {
+    else if (this.input1Write == true) {
+      console.log("erasing input1");
       this.input1 = this.input1.slice(0,-1);
       results.textContent = this.input1;
     }
@@ -271,6 +297,8 @@ class Calculator {
     this.lastButtonNumber = false;
     this.input1DotPresent = false;
     this.input2DotPresent = false;
+    this.input1Write = false;
+    this.input2Write = false;
     results.textContent = "";
   }
 
