@@ -50,19 +50,19 @@ class Calculator {
 
   // Basic arithmetic functions
   add () {
-    return (parseFloat(this.input1) + parseFloat(this.input2)).toString();
+    return (parseFloat(this.input1) + parseFloat(this.input2)).toString().slice(0,8);
   }
 
   subtract () {
-    return (parseFloat(this.input1) - parseFloat(this.input2)).toString();
+    return (parseFloat(this.input1) - parseFloat(this.input2)).toString().slice(0,8);
   }
 
   multiply () {
-    return (parseFloat(this.input1) * parseFloat(this.input2)).toString();
+    return (parseFloat(this.input1) * parseFloat(this.input2)).toString().slice(0,8);
   }
 
   divide () {
-    return (parseFloat(this.input1) / parseFloat(this.input2)).toString();
+    return (parseFloat(this.input1) / parseFloat(this.input2)).toString().slice(0,8);
   }
 
   // Change operator value
@@ -119,7 +119,7 @@ class Calculator {
         if (e.target.textContent == ".") this.input1DotPresent = true;                // If dot not already present, change state of "dot present" to true
         
         // Record user input, extend input1 string and display on results window for calculator
-        this.input1 = this.input1.concat(e.target.textContent);
+        this.input1 = this.input1.concat(e.target.textContent).slice(0,8);
         results.textContent = this.input1;
       }
       
@@ -139,7 +139,7 @@ class Calculator {
       if (e.target.textContent == ".") this.input2DotPresent = true;                // If dot not already present, change state of "dot present" to true
 
       // Record user input, extend input2 string and display on results window for calculator
-      this.input2 = this.input2.concat(e.target.textContent);
+      this.input2 = this.input2.concat(e.target.textContent).slice(0,8);
       results.textContent = this.input2;
       }
     }
@@ -282,7 +282,6 @@ clear.addEventListener('click', calculator.boundClear);
 
 document.addEventListener('keydown', (e) => {
   let name = e.key;
-  let code = e.code;
   if (name == "9") {
     nine.click();
   }
