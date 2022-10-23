@@ -83,8 +83,26 @@ class Calculator {
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
   record (e) {
 
+    // If last button was "equals", the operation must have completed already, so we reset everything
+    if (this.lastButtonEqual == true) {
+      if (e.target.textContent == ".") return; // Except when there's a "." -- in this case, do nothing
+
+      // Reset everything
+      this.input1 = e.target.textContent;
+      this.input2 = "";
+      this.operator = "";
+      this.result = "";
+      this.lastOperationNumber = "";
+      this.lastButtonEqual = false;
+      this.lastButtonOperator = false;
+      this.lastButtonNumber = false;
+      this.input1DotPresent = false;
+      this.input2DotPresent = false;
+      results.textContent = this.input1
+
+    }    
     // If input1 is empty
-    if (this.input1 == "") {
+    else if (this.input1 == "") {
       if (e.target.textContent == ".") return; // Do nothing if user input is "."
       
       // Write user input into input1, display input1 on results window for calculator
@@ -116,38 +134,14 @@ class Calculator {
 
       // Input1, operator, and input2 all nonempty
       else {
+      // We want to extend input2 string
+      // Dot handling process
+      if ((e.target.textContent == ".") && (this.input2DotPresent == true)) return;  // Do nothing if user input is "." and dot is present in input2 string already
+      if (e.target.textContent == ".") this.input2DotPresent = true;                // If dot not already present, change state of "dot present" to true
 
-        // If last button was "equals", the operation must have completed already, so we reset everything
-        if (this.lastButtonEqual == true) {
-          if (e.target.textContent == ".") return; // Except when there's a "." -- in this case, do nothing
-
-          // Reset everything
-
-          this.input1 = e.target.textContent;
-          this.input2 = "";
-          this.operator = "";
-          this.result = "";
-          this.lastOperationNumber = "";
-          this.lastButtonEqual = false;
-          this.lastButtonOperator = false;
-          this.lastButtonNumber = false;
-          this.input1DotPresent = false;
-          this.input2DotPresent = false;
-          results.textContent = this.input1
-
-        }
-
-        // Last button was not equals, so we want to extend input2 string
-        else {
-
-          // Dot handling process
-          if ((e.target.textContent == ".") && (this.input2DotPresent == true)) return;  // Do nothing if user input is "." and dot is present in input2 string already
-          if (e.target.textContent == ".") this.input2DotPresent = true;                // If dot not already present, change state of "dot present" to true
-
-          // Record user input, extend input2 string and display on results window for calculator
-          this.input2 = this.input2.concat(e.target.textContent);
-          results.textContent = this.input2;
-        }
+      // Record user input, extend input2 string and display on results window for calculator
+      this.input2 = this.input2.concat(e.target.textContent);
+      results.textContent = this.input2;
       }
     }
     this.lastButtonOperator = false;
@@ -226,10 +220,18 @@ class Calculator {
 
   boundBackspace = this.backspace.bind(this);
   backspace (e) {
-    console.log('hello');
+    if (this.lastButtonNumber != true) return;
+    if (this.input2 != "") {
+      this.input2 = this.input2.slice(0,-1);
+      results.textContent = this.input2;
+    }
+    if (this.input1 != "") {
+      this.input1 = this.input1.slice(0,-1);
+      results.textContent = this.input1;
+    }
   }
 
-
+  
 
 
 }
@@ -258,4 +260,4 @@ for (let i = 0; i < operators.length; i++) {
 
 equal.addEventListener('click', calculator.boundEquals);
 
-backspace.addEvenetListener('click', calculator.boundBackspace);
+backspace.addEventListener('click', calculator.boundBackspace);
