@@ -135,6 +135,12 @@ class Calculator {
     }
   }
 
+  limitCheck (e) {
+    if (this.result >= 99999999) this.result = "99999999";
+    else if (this.result <= -9999999) this.result = "-9999999";
+    else if ((this.result <= 6.25e-8) && (this.result >= 0)) this.result = "0";
+  }
+
 
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
   record (e) {
@@ -221,9 +227,8 @@ class Calculator {
       this.result = this.preformOperation(this.input1, this.input2);
 
       // Limit handler
-      if (this.result >= 99999999) this.result = "99999999";
-      else if (this.result <= -9999999) this.result = "-9999999";
-      else if ((this.result <= 6.25e-8) && (this.result >= 0)) this.result = "0";
+      this.limitCheck(e);
+
       this.result = this.result.slice(0,8);
       results.textContent = this.result;
       this.input1 = this.result;
@@ -260,9 +265,8 @@ class Calculator {
       }
       this.result = this.preformOperation(this.input1, this.input2);
       // Limit handler
-      if (this.result >= 99999999) this.result = "99999999";
-      else if (this.result <= -9999999) this.result = "-9999999";
-      else if ((this.result <= 6.25e-8) && (this.result >= 0)) this.result = "0";
+      this.limitCheck(e);
+      
       this.result = this.result.slice(0,8);
       results.textContent = this.result;
       this.input1 = this.result;
@@ -275,9 +279,8 @@ class Calculator {
       this.input2 = this.lastOperationNumber;
       this.result = this.preformOperation(this.input1, this.input2);
       // Limit handler
-      if (this.result >= 99999999) this.result = "99999999";
-      else if (this.result <= -9999999) this.result = "-9999999";
-      else if ((this.result <= 6.25e-8) && (this.result >= 0)) this.result = "0";
+      this.limitCheck(e);
+      
       this.result = this.result.slice(0,8);
       results.textContent = this.result;
       this.input1 = this.result;
