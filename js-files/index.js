@@ -148,6 +148,11 @@ class Calculator {
   bothInputsEmpty(e) { return (this.input1 == "" && this.input2 == "" ? true : false); }
   bothInputsFull(e) { return (this.input1 != "" && this.input2 != "" ? true : false); }
   inputsHalfFull(e) { return (((this.input1 == "" && this.input2 != "") || (this.input1 != "" && this.input2 == "")) ? true : false)}
+  sliceResult(e) {
+    this.result = this.result.slice(0,8);
+    results.textContent = this.result;
+  }
+  
 
 
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
@@ -241,8 +246,7 @@ class Calculator {
       // Limit handler
       this.limitCheck(e);
 
-      this.result = this.result.slice(0,8);
-      results.textContent = this.result;
+      this.sliceResult(e);
       this.input1 = this.result;
       this.input2 = "";
       this.operator = e.target.textContent;
@@ -279,8 +283,7 @@ class Calculator {
       // Limit handler
       this.limitCheck(e);
       
-      this.result = this.result.slice(0,8);
-      results.textContent = this.result;
+      this.sliceResult(e);
       this.input1 = this.result;
       this.lastOperationNumber = this.input2
       this.input2 = "";
@@ -293,8 +296,7 @@ class Calculator {
       // Limit handler
       this.limitCheck(e);
 
-      this.result = this.result.slice(0,8);
-      results.textContent = this.result;
+      this.sliceResult(e);
       this.input1 = this.result;
       this.input2 = "";
     }
