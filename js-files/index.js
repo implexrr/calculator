@@ -97,6 +97,30 @@ class Calculator {
     this.input2Write = true;
   }
 
+  checkInput1DuplicateDot(e) {
+    if (e.target.textContent == ".") {
+      if (this.input1DotPresent == true) {
+        return true;
+      }
+      else {
+        this.input1DotPresent = true;
+        return false;
+      }
+    }
+  }
+
+  checkInput2DuplicateDot(e) {
+    if (e.target.textContent == ".") {
+      if (this.input2DotPresent == true) {
+        return true;
+      }
+      else {
+        this.input2DotPresent = true;
+        return false;
+      }
+    }
+  }
+
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
   record (e) {
     // If last button was "equals", the operation must have completed already, so we reset everything
@@ -124,8 +148,8 @@ class Calculator {
       if (this.operator == "") {
 
         // Dot handling process
-        if ((e.target.textContent == ".") && (this.input1DotPresent == true)) return;  // Do nothing if user input is "." and dot is present in input1 string already
-        if (e.target.textContent == ".") this.input1DotPresent = true;                // If dot not already present, change state of "dot present" to true
+        if (this.checkInput1DuplicateDot(e)) return;
+
         if (e.target.textContent == "0" && parseFloat(this.input1) == 0 && this.input1DotPresent == false) return; // Zero handler
         // Record user input, extend input1 string and display on results window for calculator
 
