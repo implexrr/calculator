@@ -123,10 +123,16 @@ class Calculator {
     }
   }
 
-  setLastButton (button1, button2, button3) {
-    button1 = true;
-    button2 = false;
-    button3 = false;
+  setLastButton (whichButton) {
+    this.lastButtonEqual = false;
+    this.lastButtonOperator = false;
+    this.lastButtonNumber = false;
+    console.log(whichButton);
+    switch (whichButton) {
+      case "operator": this.lastButtonOperator = true; break;
+      case "equal": this.lastButtonEqual = true; break;
+      case "number": this.lastButtonNumber = true; break;
+    }
   }
 
 
@@ -183,9 +189,8 @@ class Calculator {
       this.writeInput2(e);
       }
     }
-    this.lastButtonOperator = false;
-    this.lastButtonEqual = false;
-    this.lastButtonNumber = true;
+
+    this.setLastButton("number");
     // DEBUGGING STATEMENT
     console.log(this);
   }
@@ -236,9 +241,7 @@ class Calculator {
       this.operator = e.target.textContent;
     }
 
-    this.lastButtonOperator = true;
-    this.lastButtonEqual = false;
-    this.lastButtonNumber = false;
+    this.setLastButton("operator");
     return;
   }
   
@@ -281,11 +284,7 @@ class Calculator {
       this.input2 = "";
     }
 
-
-
-    this.lastButtonOperator = false;
-    this.lastButtonEqual = true;
-    this.lastButtonNumber = false;
+    this.setLastButton("equal");
   }
 
   boundBackspace = this.backspace.bind(this);
