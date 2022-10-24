@@ -320,11 +320,15 @@ class Calculator {
     if (this.lastButtonNumber != true) return;
     if (this.input2Write == true) {
       console.log("erasing input2");
+      let final = this.input2.length - 1;
+      if (this.input2.charAt(final) == ".") this.input2DotPresent = false;
       this.input2 = this.input2.slice(0,-1);
       results.textContent = this.input2;
     }
     else if (this.input1Write == true) {
       console.log("erasing input1");
+      let final = this.input1.length - 1;
+      if (this.input1.charAt(final) == ".") this.input1DotPresent = false;
       this.input1 = this.input1.slice(0,-1);
       results.textContent = this.input1;
     }
