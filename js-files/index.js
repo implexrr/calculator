@@ -36,6 +36,7 @@ class Calculator {
     
   }
 
+  boundInitialize = this.initialize.bind(this);
   initialize (e) {
     console.log("Calculator initialized...");
     this.input1 = "";
@@ -50,6 +51,7 @@ class Calculator {
     this.input2DotPresent = false;
     this.input1Write = false;
     this.input2Write = false;
+    results.textContent = "";
   }
   // Basic arithmetic functions
   add () {
@@ -152,6 +154,8 @@ class Calculator {
     this.result = this.result.slice(0,8);
     results.textContent = this.result;
   }
+
+
   prepareNewOperation(e) {
     this.input1 = this.result;
     this.input2 = "";
@@ -242,7 +246,7 @@ class Calculator {
     else if ((this.bothInputsFull(e)) && this.lastButtonNumber == true) {
 
       // Division by zero handler
-      if ((this.operator == "÷") && (this.input2 == "0")) {
+      if(this.isZeroDiv(e)) {
         alert("Can't divide by zero!");
         return;
       }
@@ -275,7 +279,7 @@ class Calculator {
     // If both inputs are full, we should preform the relevant operation
     else if (this.bothInputsFull(e)) {
       // Division by zero handler
-      if ((this.operator == "÷") && (this.input2 == "0")) {
+      if(this.isZeroDiv(e)) {
         alert("Can't divide by zero!");
         return;
       }
@@ -319,27 +323,6 @@ class Calculator {
     }
   }
 
-  boundClear = this.clear.bind(this);
-
-  clear (e) {
-    // Reset everything
-    this.input1 = "";
-    this.input2 = "";
-    this.operator = "";
-    this.result = "";
-    this.lastOperationNumber = "";
-    this.lastButtonEqual = false;
-    this.lastButtonOperator = false;
-    this.lastButtonNumber = false;
-    this.input1DotPresent = false;
-    this.input2DotPresent = false;
-    this.input1Write = false;
-    this.input2Write = false;
-    results.textContent = "";
-  }
-
-
-
 }
 
 
@@ -368,7 +351,7 @@ equal.addEventListener('click', calculator.boundEquals);
 
 backspace.addEventListener('click', calculator.boundBackspace);
 
-clear.addEventListener('click', calculator.boundClear);
+clear.addEventListener('click', calculator.boundInitialize);
 
 
 document.addEventListener('keydown', (e) => {
