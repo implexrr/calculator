@@ -36,7 +36,7 @@ class Calculator {
     
   }
 
-  initialize () {
+  initialize (e) {
     console.log("Calculator initialized...");
     this.input1 = "";
     this.input2 = "";
@@ -83,6 +83,20 @@ class Calculator {
     }
   }
 
+  writeInput1 (e) {
+    this.input1 = this.input1.concat(e.target.textContent).slice(0,8);
+    results.textContent = this.input1;
+    this.input1Write = true;
+    this.input2Write = false;
+  }
+
+  writeInput2 (e) {
+    this.input2 = this.input2.concat(e.target.textContent).slice(0,8);
+    results.textContent = this.input2;
+    this.input1Write = false;
+    this.input2Write = true;
+  }
+
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
   record (e) {
     // If last button was "equals", the operation must have completed already, so we reset everything
@@ -90,11 +104,10 @@ class Calculator {
       if (e.target.textContent == ".") return; // Except when there's a "." -- in this case, do nothing
 
       // Reset everything
-      this.initialize();
+      this.initialize(e);
 
       // Write into input1
-      this.input1 = this.input1.concat(e.target.textContent).slice(0,8);
-      results.textContent = this.input1;
+      this.writeInput1(e);
 
     } 
     // If input1 is empty
@@ -102,10 +115,7 @@ class Calculator {
       if (e.target.textContent == ".") return; // Do nothing if user input is "."
       
       // Write user input into input1, display input1 on results window for calculator
-      this.input1Write = true;
-      this.input2Write = false;
-      this.input1 = e.target.textContent;
-      results.textContent = this.input1;
+      this.writeInput1(e);
     }
 
     else {
@@ -118,20 +128,15 @@ class Calculator {
         if (e.target.textContent == ".") this.input1DotPresent = true;                // If dot not already present, change state of "dot present" to true
         if (e.target.textContent == "0" && parseFloat(this.input1) == 0 && this.input1DotPresent == false) return; // Zero handler
         // Record user input, extend input1 string and display on results window for calculator
-        this.input1Write = true;
-        this.input2Write = false;
-        this.input1 = this.input1.concat(e.target.textContent).slice(0,8);
-        results.textContent = this.input1;
+
+        this.writeInput1 (e);
       }
       
       // Input1, operator both nonempty, but input2 is empty
       else if (this.input2 == "") {
         if (e.target.textContent == ".") return; // Do nothing if user input is "."
         // Write user input into input2, display input2 on results window for calculator
-        this.input1Write = false;
-        this.input2Write = true;
-        this.input2 = e.target.textContent;
-        results.textContent = this.input2;
+        this.writeInput2(e)
       }
 
       // Input1, operator, and input2 all nonempty
@@ -143,10 +148,7 @@ class Calculator {
       if (e.target.textContent == "0" && parseFloat(this.input2) == 0 && this.input2DotPresent == false) return; // Zero handler
 
       // Record user input, extend input2 string and display on results window for calculator
-      this.input1Write = false;
-      this.input2Write = true;
-      this.input2 = this.input2.concat(e.target.textContent).slice(0,8);
-      results.textContent = this.input2;
+      this.writeInput2(e);
       }
     }
     this.lastButtonOperator = false;
