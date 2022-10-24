@@ -141,6 +141,10 @@ class Calculator {
     else if ((this.result <= 6.25e-8) && (this.result >= 0)) this.result = "0";
   }
 
+  leadingZeros(e, currentValue, dotState) {
+    if (e.target.textContent == "0" && parseFloat(currentValue) == 0 && dotState == false) return true;
+  }
+
 
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
   record (e) {
@@ -171,9 +175,10 @@ class Calculator {
         // Dot handling process
         if (this.checkInput1DuplicateDot(e)) return;
 
-        if (e.target.textContent == "0" && parseFloat(this.input1) == 0 && this.input1DotPresent == false) return; // Zero handler
-        // Record user input, extend input1 string and display on results window for calculator
+        // Zero handler
+        if (this.leadingZeros(e, this.input1, this.input1DotPresent)) return;
 
+        // Record user input, extend input1 string and display on results window for calculator
         this.writeInput1 (e);
       }
       
@@ -189,7 +194,10 @@ class Calculator {
       // We want to extend input2 string
       // Dot handling process
       if (this.checkInput2DuplicateDot(e)) return;
-      if (e.target.textContent == "0" && parseFloat(this.input2) == 0 && this.input2DotPresent == false) return; // Zero handler
+
+      // Zero handler
+      if (this.leadingZeros(e, this.input2, this.input2DotPresent)) return;
+      
 
       // Record user input, extend input2 string and display on results window for calculator
       this.writeInput2(e);
@@ -280,7 +288,7 @@ class Calculator {
       this.result = this.preformOperation(this.input1, this.input2);
       // Limit handler
       this.limitCheck(e);
-      
+
       this.result = this.result.slice(0,8);
       results.textContent = this.result;
       this.input1 = this.result;
@@ -292,7 +300,6 @@ class Calculator {
 
   boundBackspace = this.backspace.bind(this);
   backspace (e) {
-    // I WAS HERE
     if (this.lastButtonNumber != true) return;
     if (this.input2Write == true) {
       console.log("erasing input2");
