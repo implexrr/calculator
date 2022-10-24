@@ -33,16 +33,19 @@ class Calculator {
   constructor() {
     // Initialize everything
     this.initialize();
-    
+    this.input1 = "";
+    this.result = "";
+    results.textContent = "";
+    console.log("First initialization")
   }
 
   boundInitialize = this.initialize.bind(this);
   initialize (e) {
     console.log("Calculator initialized...");
-    this.input1 = "";
+    this.input1 = "0";
     this.input2 = "";
     this.operator = "";
-    this.result = "";
+    this.result = "0";
     this.lastOperationNumber = "";
     this.lastButtonEqual = false;
     this.lastButtonOperator = false;
@@ -51,7 +54,7 @@ class Calculator {
     this.input2DotPresent = false;
     this.input1Write = false;
     this.input2Write = false;
-    results.textContent = "";
+    results.textContent = "0";
   }
   // Basic arithmetic functions
   add () {
@@ -85,15 +88,19 @@ class Calculator {
     }
   }
 
+  writeNewInput1(e) {this.input1 = e.target.textContent;}
+  appendToInput1(e) {this.input1 = this.input1.concat(e.target.textContent).slice(0,8);}
+  writeNewInput2(e) {this.input2 = e.target.textContent;}
+  appendToInput2(e) {this.input2 = this.input2.concat(e.target.textContent).slice(0,8);}
   writeInput1 (e) {
-    this.input1 = this.input1.concat(e.target.textContent).slice(0,8);
+    (this.input1 == "0" && e.target.textContent != ".") ? this.writeNewInput1(e) : this.appendToInput1(e);
     results.textContent = this.input1;
     this.input1Write = true;
     this.input2Write = false;
   }
 
   writeInput2 (e) {
-    this.input2 = this.input2.concat(e.target.textContent).slice(0,8);
+    (this.input2 == "0" && e.target.textContent != ".") ? this.writeNewInput2(e) : this.appendToInput2(e);
     results.textContent = this.input2;
     this.input1Write = false;
     this.input2Write = true;
