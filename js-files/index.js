@@ -152,7 +152,13 @@ class Calculator {
     this.result = this.result.slice(0,8);
     results.textContent = this.result;
   }
+  prepareNewOperation(e) {
+    this.input1 = this.result;
+    this.input2 = "";
+    this.operator = e.target.textContent;
+  }
   
+  isZeroDiv(e) { return ((this.operator == "÷") && (this.input2 == "0") ? true : false) }
 
 
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
@@ -227,10 +233,9 @@ class Calculator {
     // Nothing happens at all (if there are no inputs)
     if (this.bothInputsEmpty(e)) return;
 
-    // Add operator (or change oeprator, which only happens if last button was operator)
+    // Add operator (or change operator, which only happens if last button was operator)
     else if (this.inputsHalfFull(e) || this.lastButtonOperator == true) {
       this.operator = e.target.textContent;
-      this.lastButtonOperator = true;
     }
 
     // Continue operation (operator present, all inputs filled)
@@ -245,11 +250,8 @@ class Calculator {
 
       // Limit handler
       this.limitCheck(e);
-
       this.sliceResult(e);
-      this.input1 = this.result;
-      this.input2 = "";
-      this.operator = e.target.textContent;
+      this.prepareNewOperation(e);
     }
 
 
@@ -257,9 +259,7 @@ class Calculator {
 
     // Prep new operation (after equals is pressed)
     else if (this.lastButtonEqual == true) {
-      this.input1 = this.result;
-      this.input2 = "";
-      this.operator = e.target.textContent;
+      this.prepareNewOperation(e);
     }
 
     this.setLastButton("operator");
