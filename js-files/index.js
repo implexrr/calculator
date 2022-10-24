@@ -145,6 +145,10 @@ class Calculator {
     if (e.target.textContent == "0" && parseFloat(currentValue) == 0 && dotState == false) return true;
   }
 
+  bothInputsEmpty(e) { return (this.input1 == "" && this.input2 == "" ? true : false); }
+  bothInputsFull(e) { return (this.input1 != "" && this.input2 != "" ? true : false); }
+  inputsHalfFull(e) { return (((this.input1 == "" && this.input2 != "") || (this.input1 != "" && this.input2 == "")) ? true : false)}
+
 
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
   record (e) {
@@ -216,16 +220,16 @@ class Calculator {
     // Or nothing happens at all
 
     // Nothing happens at all (if there are no inputs)
-    if (this.input1 == "" && this.input2 == "") return;
+    if (this.bothInputsEmpty(e)) return;
 
     // Add operator (or change oeprator, which only happens if last button was operator)
-    else if ((this.input1 == "" && this.input2 != "") || (this.input1 != "" && this.input2 == "") || this.lastButtonOperator == true) {
+    else if (this.inputsHalfFull(e) || this.lastButtonOperator == true) {
       this.operator = e.target.textContent;
       this.lastButtonOperator = true;
     }
 
     // Continue operation (operator present, all inputs filled)
-    else if (this.input1 != "" && this.input2 != "" && this.lastButtonNumber == true) {
+    else if ((this.bothInputsFull(e)) && this.lastButtonNumber == true) {
 
       // Division by zero handler
       if ((this.operator == "÷") && (this.input2 == "0")) {
@@ -265,7 +269,7 @@ class Calculator {
     if (this.input2 == "" && this.lastOperationNumber == "") return // No inputs to work with, otherwise would return NaN
 
     // If both inputs are full, we should preform the relevant operation
-    else if (this.input1 != "" && this.input2 != "") {
+    else if (this.bothInputsFull(e)) {
       // Division by zero handler
       if ((this.operator == "÷") && (this.input2 == "0")) {
         alert("Can't divide by zero!");
