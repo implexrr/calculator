@@ -314,26 +314,20 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Hip hip hooray
-calculator.delInput("input1");
-
 // Assign unique variables to each button
 function assignVariablesToButtons () {
   let numbers = document.querySelectorAll('.number');
   for (let i = 0; i < numbers.length; i++) {
     window[numbers[i].id] = document.querySelector(`#${numbers[i].id}`);
-    console.log(window[numbers[i].id]);
   }
   
   let miscellaneous = document.querySelectorAll('.miscellaneous');
   for (let i = 0; i < miscellaneous.length; i++) {
     window[miscellaneous[i].id] = document.querySelector(`#${miscellaneous[i].id}`);
-    console.log(window[miscellaneous[i].id]);
   }
   
   let operators = document.querySelectorAll('.operator');
   for (let i = 0; i < operators.length; i++) {
     window[operators[i].id] = document.querySelector(`#${operators[i].id}`);
-    console.log(window[operators[i].id]);
   }
 }
