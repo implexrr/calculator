@@ -20,16 +20,8 @@ let backspace = document.querySelector("#backspace");
 let clear = document.querySelector("#clear");
 
 
-
-
-
-
-
-
-
 // Template for objects of type calculator
 class Calculator {
-
   constructor() {
     // Initialize everything
     this.initialize();
@@ -92,6 +84,8 @@ class Calculator {
   appendToInput1(e) {this.input1 = this.input1.concat(e.target.textContent).slice(0,8);}
   writeNewInput2(e) {this.input2 = e.target.textContent;}
   appendToInput2(e) {this.input2 = this.input2.concat(e.target.textContent).slice(0,8);}
+
+  // Record user input, extend input1 string and display on results window for calculator
   writeInput1 (e) {
     (this.input1 == "0" && e.target.textContent != ".") ? this.writeNewInput1(e) : this.appendToInput1(e);
     results.textContent = this.input1;
@@ -99,6 +93,7 @@ class Calculator {
     this.input2Write = false;
   }
 
+  // Record user input, extend input2 string and display on results window for calculator
   writeInput2 (e) {
     (this.input2 == "0" && e.target.textContent != ".") ? this.writeNewInput2(e) : this.appendToInput2(e);
     results.textContent = this.input2;
@@ -171,77 +166,54 @@ class Calculator {
   
   isZeroDiv(e) { return ((this.operator == "÷") && (this.input2 == "0") ? true : false) }
 
+  resultToInput1(e) {
+    this.result = this.preformOperation(this.input1, this.input2);
+    this.limitCheck(e);
+    this.sliceResult(e);
+    this.input1 = this.result;
+  }
 
   boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
   record (e) {
-    // If last button was "equals", the operation must have completed already, so we reset everything
+    // Start a new calculation, since the last button was "equals"
     if (this.lastButtonEqual == true) {
-      if (e.target.textContent == ".") return; // Except when there's a "." -- in this case, do nothing
-
-      // Reset everything
+      if (e.target.textContent == ".") return; // First character shouldn't be a period
       this.initialize(e);
-
-      // Write into input1
       this.writeInput1(e);
-
     } 
-    // If input1 is empty
+
+    // Write into input1, since input1 is empty
     else if (this.input1 == "") {
-      if (e.target.textContent == ".") return; // Do nothing if user input is "."
-      
-      // Write user input into input1, display input1 on results window for calculator
+      if (e.target.textContent == ".") return; // First character shouldn't be a period
       this.writeInput1(e);
     }
 
     else {
-
-      // If input1 is non-empty, but operator is empty
+      // Extend input1, since operator is empty
       if (this.operator == "") {
-
-        // Dot handling process
-        if (this.checkInput1DuplicateDot(e)) return;
-
-        // Zero handler
-        if (this.leadingZeros(e, this.input1, this.input1DotPresent)) return;
-
-        // Record user input, extend input1 string and display on results window for calculator
+        if (this.checkInput1DuplicateDot(e)) return;                          // Dot handling
+        if (this.leadingZeros(e, this.input1, this.input1DotPresent)) return; // Zero handling
         this.writeInput1 (e);
       }
-      
-      // Input1, operator both nonempty, but input2 is empty
+
+      // Write into input2, since input1, operator both nonempty
       else if (this.input2 == "") {
-        if (e.target.textContent == ".") return; // Do nothing if user input is "."
-        // Write user input into input2, display input2 on results window for calculator
+        if (e.target.textContent == ".") return; // First character shouldn't be a period
         this.writeInput2(e)
       }
 
-      // Input1, operator, and input2 all nonempty
+      // Extend input2, since input1, operator and input2 are nonempty
       else {
-      // We want to extend input2 string
-      // Dot handling process
-      if (this.checkInput2DuplicateDot(e)) return;
-
-      // Zero handler
-      if (this.leadingZeros(e, this.input2, this.input2DotPresent)) return;
-      
-
-      // Record user input, extend input2 string and display on results window for calculator
-      this.writeInput2(e);
+        if (this.checkInput2DuplicateDot(e)) return;                          // Dot handling
+        if (this.leadingZeros(e, this.input2, this.input2DotPresent)) return; // Zero handling
+        this.writeInput2(e);
       }
     }
-
     this.setLastButton("number");
-    // DEBUGGING STATEMENT
-    console.log(this);
   }
 
   boundPrepOperator = this.prepOperator.bind(this);
   prepOperator (e) {
-    // Either just the operator changes
-    // Or the the operator changes and so do the inputs
-    // Or nothing happens at all
-
-    // Nothing happens at all (if there are no inputs)
     if (this.bothInputsEmpty(e)) return;
 
     // Add operator (or change operator, which only happens if last button was operator)
@@ -252,50 +224,36 @@ class Calculator {
     // Continue operation (operator present, all inputs filled)
     else if ((this.bothInputsFull(e)) && this.lastButtonNumber == true) {
 
-      // Division by zero handler
       if(this.isZeroDiv(e)) {
         alert("Can't divide by zero!");
         return;
       }
-      this.result = this.preformOperation(this.input1, this.input2);
 
-      // Limit handler
+      this.result = this.preformOperation(this.input1, this.input2);
       this.limitCheck(e);
       this.sliceResult(e);
       this.prepareNewOperation(e);
     }
-
-
-
 
     // Prep new operation (after equals is pressed)
     else if (this.lastButtonEqual == true) {
       this.prepareNewOperation(e);
     }
-
     this.setLastButton("operator");
-    return;
   }
   
   boundEquals = this.equals.bind(this);
   equals (e) {
 
-    if (this.operator == "" || this.lastButtonOperator == true) return; // If operator is empty or user just pressed operator, nothing todo
-    if (this.input2 == "" && this.lastOperationNumber == "") return // No inputs to work with, otherwise would return NaN
+    if (this.operator == "" || this.lastButtonOperator == true) return;   // If operator is empty or user just pressed operator, nothing todo
+    if (this.input2 == "" && this.lastOperationNumber == "") return;      // No inputs to work with, otherwise would return NaN
 
-    // If both inputs are full, we should preform the relevant operation
     else if (this.bothInputsFull(e)) {
-      // Division by zero handler
       if(this.isZeroDiv(e)) {
         alert("Can't divide by zero!");
         return;
       }
-      this.result = this.preformOperation(this.input1, this.input2);
-      // Limit handler
-      this.limitCheck(e);
-      
-      this.sliceResult(e);
-      this.input1 = this.result;
+      this.resultToInput1(e);
       this.lastOperationNumber = this.input2
       this.input2 = "";
     }
@@ -303,15 +261,9 @@ class Calculator {
     // If the last button was "equals", then we simply continue the operation
     else if (this.lastButtonEqual == true) {
       this.input2 = this.lastOperationNumber;
-      this.result = this.preformOperation(this.input1, this.input2);
-      // Limit handler
-      this.limitCheck(e);
-
-      this.sliceResult(e);
-      this.input1 = this.result;
+      this.resultToInput1(e);
       this.input2 = "";
     }
-
     this.setLastButton("equal");
   }
 
