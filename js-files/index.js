@@ -159,6 +159,12 @@ class Calculator {
     results.textContent = this.result;
   }
 
+  // I WAS HERE
+  // Hip hip hooray
+  delInput(input) {
+    this[input] = "adjgnalsjgn";
+  }
+
   delInput2 (e) {
     console.log("erasing input2");
 
@@ -289,7 +295,7 @@ class Calculator {
     }
     this.setLastButton("equal");
   }
-// I WAS HERE
+
   boundBackspace = this.backspace.bind(this);
   backspace (e) {
     if (this.lastButtonNumber != true) return;
@@ -354,5 +360,7 @@ document.addEventListener('keydown', (e) => {
     case "*": multiply.click(); break;
     case "/": divide.click(); break;
   }
-
 });
+
+// Hip hip hooray
+calculator.delInput("input1");
