@@ -1,6 +1,7 @@
 const MAXIMUM = 99999999;
 const MINIMUM = -9999999;
 const SQUEEZE = 6.25e-8;
+
 // Assign unique variables to each button
 let numbers = document.querySelectorAll('.number');
 for (let i = 0; i < numbers.length; i++) {
@@ -108,7 +109,7 @@ class Calculator {
     }
   }
 
-  
+  // Limit user calculation to specified constants
   limitCheck () {
     if (this.result >= MAXIMUM) this.result = MAXIMUM.toString();
     else if (this.result <= MINIMUM) this.result = MINIMUM.toString();
@@ -117,15 +118,17 @@ class Calculator {
             this.result = "0";
   }
 
+  // Check if user input would result in a string with non-significant leading zeros
   leadingZeros(e, currentValue, dotState) {
     if (e.target.textContent == "0" && parseFloat(currentValue) == 0 && dotState == false) return true;
   }
-
-
   
+  // Check states of input1 and input2
   bothInputsEmpty() { return (this.input1 == "" && this.input2 == "" ? true : false); }
   bothInputsFull() { return (this.input1 != "" && this.input2 != "" ? true : false); }
   inputsHalfFull() { return (((this.input1 == "" && this.input2 != "") || (this.input1 != "" && this.input2 == "")) ? true : false)}
+  
+  // Limit result to 8 characters
   sliceResult() {
     this.result = this.result.slice(0,8);
     results.textContent = this.result;
@@ -147,14 +150,17 @@ class Calculator {
     results.textContent = this[input];
   }
 
+  // Change operator to be used
   prepareNewOperation(e) {
     this.input1 = this.result;
     this.input2 = "";
     this.operator = e.target.textContent;
   }
   
+  // Check if user is attempting to divide by zero
   isZeroDiv() { return ((this.operator == "÷") && (this.input2 == "0") ? true : false) }
 
+  // Calculate result of input1 and input2 with current operation, then store result in input1
   resultToInput1() {
     this.result = this.preformOperation(this.input1, this.input2);
     this.limitCheck();
@@ -163,6 +169,7 @@ class Calculator {
   }
 
   boundRecord = this.record.bind(this);
+  // Record user input into input1 or input2 slot
   record (e) {
     // Start a new calculation, since the last button was "equals"
     if (this.lastButtonEqual == true) {
@@ -202,6 +209,7 @@ class Calculator {
   }
 
   boundPrepOperator = this.prepOperator.bind(this);
+  // Record user input into operator slot
   prepOperator (e) {
     if (this.bothInputsEmpty()) return;
 
@@ -232,6 +240,7 @@ class Calculator {
   }
   
   boundEquals = this.equals.bind(this);
+  // Calculate result of current operator when applied to input1 and input2
   equals () {
 
     if (this.operator == "" || this.lastButtonOperator == true) return;   // If operator is empty or user just pressed operator, nothing todo
@@ -257,6 +266,7 @@ class Calculator {
   }
 
   boundBackspace = this.backspace.bind(this);
+  // Delete one character from current input being written into
   backspace () {
     if (this.lastButtonNumber != true) return;
     if (this.input2Write == true) this.delInput("input2");
@@ -266,37 +276,28 @@ class Calculator {
 }
 
 
-
-
-
-
-
-
 // Create new calculator object
 let calculator = new Calculator();
 
-
-// Add "Record" functionality from Calculator class onto all buttons with html class="number"
+// Add "Record" methods from Calculator class onto all buttons with html class="number"
 for (let i = 0; i < numbers.length; i++) {
   numbers[i].addEventListener('click', calculator.boundRecord);
 }
 
+// Add "prepOperator" methods from Calculator class onto all buttons with html class="number"
 for (let i = 0; i < operators.length; i++) {
   operators[i].addEventListener('click', calculator.boundPrepOperator);
 }
 
+// Add "equals" "backspace" and "initialize" from Calculator class onto relevant buttons
 equal.addEventListener('click', calculator.boundEquals);
-
 backspace.addEventListener('click', calculator.boundBackspace);
-
 clear.addEventListener('click', calculator.boundInitialize);
 
 
 document.addEventListener('keydown', (e) => {
-
   let name = e.key;
   console.log(e.key);
-
   // TODO convert e.key from string to variable in a better way
   switch (name) {
     case "1": one.click(); break;
@@ -319,7 +320,4 @@ document.addEventListener('keydown', (e) => {
     case "/": divide.click(); break;
   }
 });
-
-// Hip hip hooray
-calculator.delInput("input1");
 
