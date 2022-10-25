@@ -149,6 +149,8 @@ class Calculator {
     if (e.target.textContent == "0" && parseFloat(currentValue) == 0 && dotState == false) return true;
   }
 
+
+  
   bothInputsEmpty(e) { return (this.input1 == "" && this.input2 == "" ? true : false); }
   bothInputsFull(e) { return (this.input1 != "" && this.input2 != "" ? true : false); }
   inputsHalfFull(e) { return (((this.input1 == "" && this.input2 != "") || (this.input1 != "" && this.input2 == "")) ? true : false)}
@@ -157,6 +159,27 @@ class Calculator {
     results.textContent = this.result;
   }
 
+  delInput2 (e) {
+    console.log("erasing input2");
+
+    // Check to see if user is about to delete a dot
+    let final = this.input2.length - 1;
+    if (this.input2.charAt(final) == ".") this.input2DotPresent = false;
+
+    this.input2 = this.input2.slice(0,-1);
+    results.textContent = this.input2;
+  }
+
+  delInput1 (e) {
+    console.log("erasing input1");
+
+    // Check to see if user is about to delete a dot
+    let final = this.input1.length - 1;
+    if (this.input1.charAt(final) == ".") this.input1DotPresent = false;
+
+    this.input1 = this.input1.slice(0,-1);
+    results.textContent = this.input1;
+  }
 
   prepareNewOperation(e) {
     this.input1 = this.result;
@@ -266,24 +289,12 @@ class Calculator {
     }
     this.setLastButton("equal");
   }
-
+// I WAS HERE
   boundBackspace = this.backspace.bind(this);
   backspace (e) {
     if (this.lastButtonNumber != true) return;
-    if (this.input2Write == true) {
-      console.log("erasing input2");
-      let final = this.input2.length - 1;
-      if (this.input2.charAt(final) == ".") this.input2DotPresent = false;
-      this.input2 = this.input2.slice(0,-1);
-      results.textContent = this.input2;
-    }
-    else if (this.input1Write == true) {
-      console.log("erasing input1");
-      let final = this.input1.length - 1;
-      if (this.input1.charAt(final) == ".") this.input1DotPresent = false;
-      this.input1 = this.input1.slice(0,-1);
-      results.textContent = this.input1;
-    }
+    if (this.input2Write == true) this.delInput2(e);
+    else if (this.input1Write == true) this.delInput1(e);
   }
 
 }
