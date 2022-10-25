@@ -65,33 +65,39 @@ class Calculator {
   }
 
   // See if input already has a dot, if it does then do nothing, otherwise concatenate dot to input
-  // I WAS HERE
-
-  // See if input1 already has a dot, if it does then do nothing, otherwise concatenate dot to input1
-  checkInput1DuplicateDot(e) {
+  checkDuplicateDot (e, input) {
     if (e.target.textContent == ".") {
-      if (this.input1DotPresent == true) {
-        return true;
-      }
-      else {
-        this.input1DotPresent = true;
-        return false;
-      }
+      if (this[input + "DotPresent"] == true) return true;
+      else this[input + "DotPresent"] = true;
+      return false;
     }
   }
 
-  // See if input2 already has a dot, if it does then do nothing, otherwise concatenate dot to input2
-  checkInput2DuplicateDot(e) {
-    if (e.target.textContent == ".") {
-      if (this.input2DotPresent == true) {
-        return true;
-      }
-      else {
-        this.input2DotPresent = true;
-        return false;
-      }
-    }
-  }
+  // // See if input1 already has a dot, if it does then do nothing, otherwise concatenate dot to input1
+  // checkInput1DuplicateDot(e) {
+  //   if (e.target.textContent == ".") {
+  //     if (this.input1DotPresent == true) {
+  //       return true;
+  //     }
+  //     else {
+  //       this.input1DotPresent = true;
+  //       return false;
+  //     }
+  //   }
+  // }
+
+  // // See if input2 already has a dot, if it does then do nothing, otherwise concatenate dot to input2
+  // checkInput2DuplicateDot(e) {
+  //   if (e.target.textContent == ".") {
+  //     if (this.input2DotPresent == true) {
+  //       return true;
+  //     }
+  //     else {
+  //       this.input2DotPresent = true;
+  //       return false;
+  //     }
+  //   }
+  // }
 
   setLastButton (whichButton) {
     this.lastButtonEqual = false;
@@ -174,7 +180,7 @@ class Calculator {
     else {
       // Extend input1, since operator is empty
       if (this.operator == "") {
-        if (this.checkInput1DuplicateDot(e)) return;                          // Dot handling
+        if (this.checkDuplicateDot(e, input1)) return;                          // Dot handling
         if (this.leadingZeros(e, this.input1, this.input1DotPresent)) return; // Zero handling
         this.writeInput(e, "input1");
       }
@@ -187,7 +193,7 @@ class Calculator {
 
       // Extend input2, since input1, operator and input2 are nonempty
       else {
-        if (this.checkInput2DuplicateDot(e)) return;                          // Dot handling
+        if (this.checkDuplicateDot(e, input1)) return;                          // Dot handling
         if (this.leadingZeros(e, this.input2, this.input2DotPresent)) return; // Zero handling
         this.writeInput(e, "input2");
       }
