@@ -1,3 +1,6 @@
+const MAXIMUM = 99999999;
+const MINIMUM = -9999999;
+const SQUEEZE = 6.25e-8;
 // Assign unique variables to each button
 let numbers = document.querySelectorAll('.number');
 for (let i = 0; i < numbers.length; i++) {
@@ -107,9 +110,11 @@ class Calculator {
 
   
   limitCheck () {
-    if (this.result >= 99999999) this.result = "99999999";
-    else if (this.result <= -9999999) this.result = "-9999999";
-    else if ((this.result <= 6.25e-8) && (this.result >= 0)) this.result = "0";
+    if (this.result >= MAXIMUM) this.result = MAXIMUM.toString();
+    else if (this.result <= MINIMUM) this.result = MINIMUM.toString();
+    else if     (((this.result <= SQUEEZE) && (this.result >= 0)) 
+            ||  ((this.result >= -SQUEEZE) && (this.result <= 0))) 
+            this.result = "0";
   }
 
   leadingZeros(e, currentValue, dotState) {
