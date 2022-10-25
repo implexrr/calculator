@@ -49,26 +49,10 @@ class Calculator {
     results.textContent = "0";
   }
   // Basic arithmetic functions
-  add () {
-    return (parseFloat(this.input1) + parseFloat(this.input2)).toString()
-  }
-
-  subtract () {
-    return (parseFloat(this.input1) - parseFloat(this.input2)).toString()
-  }
-
-  multiply () {
-    return (parseFloat(this.input1) * parseFloat(this.input2)).toString()
-  }
-
-  divide () {
-    return (parseFloat(this.input1) / parseFloat(this.input2)).toString()
-  }
-
-  // Change operator value
-  addOperator(operator) {
-    this.operator = operator;
-  }
+  add () { return (parseFloat(this.input1) + parseFloat(this.input2)).toString() }
+  subtract () { return (parseFloat(this.input1) - parseFloat(this.input2)).toString() }
+  multiply () { return (parseFloat(this.input1) * parseFloat(this.input2)).toString() }
+  divide () { return (parseFloat(this.input1) / parseFloat(this.input2)).toString() }
 
   // Preform operation (based on operator value)
   preformOperation () {
@@ -80,25 +64,21 @@ class Calculator {
     }
   }
 
-  writeNewInput1(e) {this.input1 = e.target.textContent;}
-  appendToInput1(e) {this.input1 = this.input1.concat(e.target.textContent).slice(0,8);}
-  writeNewInput2(e) {this.input2 = e.target.textContent;}
-  appendToInput2(e) {this.input2 = this.input2.concat(e.target.textContent).slice(0,8);}
+  writeNewInput(e, input) { this[input] = e.target.textContent; }
+  appendToInput (e, input) { this[input] = this[input].concat(e.target.textContent.slice(0,8)); }
 
-  // Record user input, extend input1 string and display on results window for calculator
-  writeInput1 (e) {
-    (this.input1 == "0" && e.target.textContent != ".") ? this.writeNewInput1(e) : this.appendToInput1(e);
-    results.textContent = this.input1;
-    this.input1Write = true;
-    this.input2Write = false;
-  }
-
-  // Record user input, extend input2 string and display on results window for calculator
-  writeInput2 (e) {
-    (this.input2 == "0" && e.target.textContent != ".") ? this.writeNewInput2(e) : this.appendToInput2(e);
-    results.textContent = this.input2;
-    this.input1Write = false;
-    this.input2Write = true;
+  // Record user input, extend input string and display on results window for calculator
+  writeInput (e, input) {
+    if (input == "input1") {
+      this.input1Write = true;
+      this.input2Write = false;
+    }
+    else if (input == "input2") {
+      this.input1Write = false;
+      this.input2Write = true;
+    }
+    (this[input] == "0" && e.target.textContent != ".") ? this.writeNewInput(e, input) : this.appendToInput(e, input);
+    results.textContent = this[input];
   }
 
   // See if input1 already has a dot, if it does then do nothing, otherwise concatenate dot to input1
@@ -196,13 +176,13 @@ class Calculator {
     if (this.lastButtonEqual == true) {
       if (e.target.textContent == ".") return; // First character shouldn't be a period
       this.initialize();
-      this.writeInput1(e);
+      this.writeInput(e, "input1");
     } 
 
     // Write into input1, since input1 is empty
     else if (this.input1 == "") {
       if (e.target.textContent == ".") return; // First character shouldn't be a period
-      this.writeInput1(e);
+      this.writeInput(e, "input1");
     }
 
     else {
@@ -210,20 +190,20 @@ class Calculator {
       if (this.operator == "") {
         if (this.checkInput1DuplicateDot(e)) return;                          // Dot handling
         if (this.leadingZeros(e, this.input1, this.input1DotPresent)) return; // Zero handling
-        this.writeInput1 (e);
+        this.writeInput(e, "input1");
       }
 
       // Write into input2, since input1, operator both nonempty
       else if (this.input2 == "") {
         if (e.target.textContent == ".") return; // First character shouldn't be a period
-        this.writeInput2(e)
+        this.writeInput(e, "input2");
       }
 
       // Extend input2, since input1, operator and input2 are nonempty
       else {
         if (this.checkInput2DuplicateDot(e)) return;                          // Dot handling
         if (this.leadingZeros(e, this.input2, this.input2DotPresent)) return; // Zero handling
-        this.writeInput2(e);
+        this.writeInput(e, "input2");
       }
     }
     this.setLastButton("number");
