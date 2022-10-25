@@ -159,32 +159,20 @@ class Calculator {
     results.textContent = this.result;
   }
 
-  // I WAS HERE
-  // Hip hip hooray
+  // Delete one character of user input
   delInput(input) {
-    this[input] = "adjgnalsjgn";
-  }
-
-  delInput2 () {
-    console.log("erasing input2");
+    console.log(`erasing ${input}`) // I WAS HERE
 
     // Check to see if user is about to delete a dot
-    let final = this.input2.length - 1;
-    if (this.input2.charAt(final) == ".") this.input2DotPresent = false;
+    let final = this[input].length - 1;
 
-    this.input2 = this.input2.slice(0,-1);
-    results.textContent = this.input2;
-  }
+    // Are we deleting from input1 or input2
+    if (this[input].charAt(final) == "." && input == "input2") this.input2DotPresent = false;
+    else if (this[input].charAt(final) == "." && input == "input1") this.input1DotPresent = false;
 
-  delInput1 () {
-    console.log("erasing input1");
-
-    // Check to see if user is about to delete a dot
-    let final = this.input1.length - 1;
-    if (this.input1.charAt(final) == ".") this.input1DotPresent = false;
-
-    this.input1 = this.input1.slice(0,-1);
-    results.textContent = this.input1;
+    // Delete one character, display results
+    this[input] = this[input].slice(0,-1);
+    results.textContent = this[input];
   }
 
   prepareNewOperation(e) {
@@ -299,8 +287,8 @@ class Calculator {
   boundBackspace = this.backspace.bind(this);
   backspace () {
     if (this.lastButtonNumber != true) return;
-    if (this.input2Write == true) this.delInput2();
-    else if (this.input1Write == true) this.delInput1();
+    if (this.input2Write == true) this.delInput("input2");
+    else if (this.input1Write == true) this.delInput("input1");
   }
 
 }
