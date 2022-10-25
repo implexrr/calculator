@@ -1,23 +1,4 @@
-// Assign unique variables to each button
-let zero = document.querySelector("#zero");
-let one = document.querySelector("#one");
-let two = document.querySelector("#two");
-let three = document.querySelector("#three");
-let four = document.querySelector("#four");
-let five = document.querySelector("#five");
-let six = document.querySelector("#six");
-let seven = document.querySelector("#seven");
-let eight = document.querySelector("#eight");
-let nine = document.querySelector("#nine");
-let dot = document.querySelector("#dot");
-let plus = document.querySelector("#plus");
-let minus = document.querySelector("#minus");
-let divide = document.querySelector("#divide");
-let multiply = document.querySelector("#multiply");
-let equal = document.querySelector("#equals");
-let results = document.querySelector("#results");
-let backspace = document.querySelector("#backspace");
-let clear = document.querySelector("#clear");
+assignVariablesToButtons();
 
 
 // Template for objects of type calculator
@@ -31,6 +12,7 @@ class Calculator {
     console.log("First initialization")
   }
 
+  // Initialization function
   boundInitialize = this.initialize.bind(this);
   initialize () {
     console.log("Calculator initialized...");
@@ -48,6 +30,7 @@ class Calculator {
     this.input2Write = false;
     results.textContent = "0";
   }
+
   // Basic arithmetic functions
   add () { return (parseFloat(this.input1) + parseFloat(this.input2)).toString() }
   subtract () { return (parseFloat(this.input1) - parseFloat(this.input2)).toString() }
@@ -80,6 +63,9 @@ class Calculator {
     (this[input] == "0" && e.target.textContent != ".") ? this.writeNewInput(e, input) : this.appendToInput(e, input);
     results.textContent = this[input];
   }
+
+  // See if input already has a dot, if it does then do nothing, otherwise concatenate dot to input
+  // I WAS HERE
 
   // See if input1 already has a dot, if it does then do nothing, otherwise concatenate dot to input1
   checkInput1DuplicateDot(e) {
@@ -285,12 +271,10 @@ let calculator = new Calculator();
 
 
 // Add "Record" functionality from Calculator class onto all buttons with html class="number"
-let numbers = document.querySelectorAll('.number');
 for (let i = 0; i < numbers.length; i++) {
   numbers[i].addEventListener('click', calculator.boundRecord);
 }
 
-let operators = document.querySelectorAll('.operator');
 for (let i = 0; i < operators.length; i++) {
   operators[i].addEventListener('click', calculator.boundPrepOperator);
 }
@@ -332,3 +316,24 @@ document.addEventListener('keydown', (e) => {
 
 // Hip hip hooray
 calculator.delInput("input1");
+
+// Assign unique variables to each button
+function assignVariablesToButtons () {
+  let numbers = document.querySelectorAll('.number');
+  for (let i = 0; i < numbers.length; i++) {
+    window[numbers[i].id] = document.querySelector(`#${numbers[i].id}`);
+    console.log(window[numbers[i].id]);
+  }
+  
+  let miscellaneous = document.querySelectorAll('.miscellaneous');
+  for (let i = 0; i < miscellaneous.length; i++) {
+    window[miscellaneous[i].id] = document.querySelector(`#${miscellaneous[i].id}`);
+    console.log(window[miscellaneous[i].id]);
+  }
+  
+  let operators = document.querySelectorAll('.operator');
+  for (let i = 0; i < operators.length; i++) {
+    window[operators[i].id] = document.querySelector(`#${operators[i].id}`);
+    console.log(window[operators[i].id]);
+  }
+}
