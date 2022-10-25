@@ -1,10 +1,26 @@
-assignVariablesToButtons();
+// Assign unique variables to each button
+let numbers = document.querySelectorAll('.number');
+for (let i = 0; i < numbers.length; i++) {
+  window[numbers[i].id] = document.querySelector(`#${numbers[i].id}`);
+}
+
+let miscellaneous = document.querySelectorAll('.miscellaneous');
+for (let i = 0; i < miscellaneous.length; i++) {
+  window[miscellaneous[i].id] = document.querySelector(`#${miscellaneous[i].id}`);
+}
+
+let operators = document.querySelectorAll('.operator');
+for (let i = 0; i < operators.length; i++) {
+  window[operators[i].id] = document.querySelector(`#${operators[i].id}`);
+}
+let equal = document.querySelector("#equal");
+let results = document.querySelector("#results");
 
 
-// Template for objects of type calculator
+
+// Prototype for calculator
 class Calculator {
   constructor() {
-    // Initialize everything
     this.initialize();
     this.input1 = "";
     this.result = "";
@@ -12,8 +28,10 @@ class Calculator {
     console.log("First initialization")
   }
 
-  // Initialization function
+  // Allows the initialize method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
   boundInitialize = this.initialize.bind(this);
+
+  // Resets all calculator variables
   initialize () {
     console.log("Calculator initialized...");
     this.input1 = "0";
@@ -31,7 +49,7 @@ class Calculator {
     results.textContent = "0";
   }
 
-  // Basic arithmetic functions
+  // Basic arithmetic methods
   add () { return (parseFloat(this.input1) + parseFloat(this.input2)).toString() }
   subtract () { return (parseFloat(this.input1) - parseFloat(this.input2)).toString() }
   multiply () { return (parseFloat(this.input1) * parseFloat(this.input2)).toString() }
@@ -47,8 +65,9 @@ class Calculator {
     }
   }
 
+  // Auxiliary functions for writeInput method
   writeNewInput(e, input) { this[input] = e.target.textContent; }
-  appendToInput (e, input) { this[input] = this[input].concat(e.target.textContent.slice(0,8)); }
+  appendToInput (e, input) { this[input] = this[input].concat(e.target.textContent).slice(0,8); }
 
   // Record user input, extend input string and display on results window for calculator
   writeInput (e, input) {
@@ -64,7 +83,7 @@ class Calculator {
     results.textContent = this[input];
   }
 
-  // See if input already has a dot, if it does then do nothing, otherwise concatenate dot to input
+  // Check for pre-existing "." characters when evaluating user input
   checkDuplicateDot (e, input) {
     if (e.target.textContent == ".") {
       if (this[input + "DotPresent"] == true) return true;
@@ -73,32 +92,7 @@ class Calculator {
     }
   }
 
-  // // See if input1 already has a dot, if it does then do nothing, otherwise concatenate dot to input1
-  // checkInput1DuplicateDot(e) {
-  //   if (e.target.textContent == ".") {
-  //     if (this.input1DotPresent == true) {
-  //       return true;
-  //     }
-  //     else {
-  //       this.input1DotPresent = true;
-  //       return false;
-  //     }
-  //   }
-  // }
-
-  // // See if input2 already has a dot, if it does then do nothing, otherwise concatenate dot to input2
-  // checkInput2DuplicateDot(e) {
-  //   if (e.target.textContent == ".") {
-  //     if (this.input2DotPresent == true) {
-  //       return true;
-  //     }
-  //     else {
-  //       this.input2DotPresent = true;
-  //       return false;
-  //     }
-  //   }
-  // }
-
+  // Record last button user pressed
   setLastButton (whichButton) {
     this.lastButtonEqual = false;
     this.lastButtonOperator = false;
@@ -111,6 +105,7 @@ class Calculator {
     }
   }
 
+  
   limitCheck () {
     if (this.result >= 99999999) this.result = "99999999";
     else if (this.result <= -9999999) this.result = "-9999999";
@@ -133,7 +128,7 @@ class Calculator {
 
   // Delete one character of user input
   delInput(input) {
-    console.log(`erasing ${input}`) // I WAS HERE
+    console.log(`erasing ${input}`);
 
     // Check to see if user is about to delete a dot
     let final = this[input].length - 1;
@@ -162,7 +157,7 @@ class Calculator {
     this.input1 = this.result;
   }
 
-  boundRecord = this.record.bind(this); // Allows the record method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
+  boundRecord = this.record.bind(this);
   record (e) {
     // Start a new calculation, since the last button was "equals"
     if (this.lastButtonEqual == true) {
@@ -180,7 +175,7 @@ class Calculator {
     else {
       // Extend input1, since operator is empty
       if (this.operator == "") {
-        if (this.checkDuplicateDot(e, input1)) return;                          // Dot handling
+        if (this.checkDuplicateDot(e, "input1")) return;                          // Dot handling
         if (this.leadingZeros(e, this.input1, this.input1DotPresent)) return; // Zero handling
         this.writeInput(e, "input1");
       }
@@ -193,7 +188,7 @@ class Calculator {
 
       // Extend input2, since input1, operator and input2 are nonempty
       else {
-        if (this.checkDuplicateDot(e, input1)) return;                          // Dot handling
+        if (this.checkDuplicateDot(e, "input2")) return;                        // Dot handling
         if (this.leadingZeros(e, this.input2, this.input2DotPresent)) return; // Zero handling
         this.writeInput(e, "input2");
       }
@@ -320,20 +315,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Assign unique variables to each button
-function assignVariablesToButtons () {
-  let numbers = document.querySelectorAll('.number');
-  for (let i = 0; i < numbers.length; i++) {
-    window[numbers[i].id] = document.querySelector(`#${numbers[i].id}`);
-  }
-  
-  let miscellaneous = document.querySelectorAll('.miscellaneous');
-  for (let i = 0; i < miscellaneous.length; i++) {
-    window[miscellaneous[i].id] = document.querySelector(`#${miscellaneous[i].id}`);
-  }
-  
-  let operators = document.querySelectorAll('.operator');
-  for (let i = 0; i < operators.length; i++) {
-    window[operators[i].id] = document.querySelector(`#${operators[i].id}`);
-  }
-}
+// Hip hip hooray
+calculator.delInput("input1");
+
