@@ -32,7 +32,7 @@ class Calculator {
   }
 
   boundInitialize = this.initialize.bind(this);
-  initialize (e) {
+  initialize () {
     console.log("Calculator initialized...");
     this.input1 = "0";
     this.input2 = "";
@@ -139,7 +139,7 @@ class Calculator {
     }
   }
 
-  limitCheck (e) {
+  limitCheck () {
     if (this.result >= 99999999) this.result = "99999999";
     else if (this.result <= -9999999) this.result = "-9999999";
     else if ((this.result <= 6.25e-8) && (this.result >= 0)) this.result = "0";
@@ -151,10 +151,10 @@ class Calculator {
 
 
   
-  bothInputsEmpty(e) { return (this.input1 == "" && this.input2 == "" ? true : false); }
-  bothInputsFull(e) { return (this.input1 != "" && this.input2 != "" ? true : false); }
-  inputsHalfFull(e) { return (((this.input1 == "" && this.input2 != "") || (this.input1 != "" && this.input2 == "")) ? true : false)}
-  sliceResult(e) {
+  bothInputsEmpty() { return (this.input1 == "" && this.input2 == "" ? true : false); }
+  bothInputsFull() { return (this.input1 != "" && this.input2 != "" ? true : false); }
+  inputsHalfFull() { return (((this.input1 == "" && this.input2 != "") || (this.input1 != "" && this.input2 == "")) ? true : false)}
+  sliceResult() {
     this.result = this.result.slice(0,8);
     results.textContent = this.result;
   }
@@ -165,7 +165,7 @@ class Calculator {
     this[input] = "adjgnalsjgn";
   }
 
-  delInput2 (e) {
+  delInput2 () {
     console.log("erasing input2");
 
     // Check to see if user is about to delete a dot
@@ -176,7 +176,7 @@ class Calculator {
     results.textContent = this.input2;
   }
 
-  delInput1 (e) {
+  delInput1 () {
     console.log("erasing input1");
 
     // Check to see if user is about to delete a dot
@@ -193,12 +193,12 @@ class Calculator {
     this.operator = e.target.textContent;
   }
   
-  isZeroDiv(e) { return ((this.operator == "÷") && (this.input2 == "0") ? true : false) }
+  isZeroDiv() { return ((this.operator == "÷") && (this.input2 == "0") ? true : false) }
 
-  resultToInput1(e) {
+  resultToInput1() {
     this.result = this.preformOperation(this.input1, this.input2);
-    this.limitCheck(e);
-    this.sliceResult(e);
+    this.limitCheck();
+    this.sliceResult();
     this.input1 = this.result;
   }
 
@@ -207,7 +207,7 @@ class Calculator {
     // Start a new calculation, since the last button was "equals"
     if (this.lastButtonEqual == true) {
       if (e.target.textContent == ".") return; // First character shouldn't be a period
-      this.initialize(e);
+      this.initialize();
       this.writeInput1(e);
     } 
 
@@ -243,24 +243,24 @@ class Calculator {
 
   boundPrepOperator = this.prepOperator.bind(this);
   prepOperator (e) {
-    if (this.bothInputsEmpty(e)) return;
+    if (this.bothInputsEmpty()) return;
 
     // Add operator (or change operator, which only happens if last button was operator)
-    else if (this.inputsHalfFull(e) || this.lastButtonOperator == true) {
+    else if (this.inputsHalfFull() || this.lastButtonOperator == true) {
       this.operator = e.target.textContent;
     }
 
     // Continue operation (operator present, all inputs filled)
-    else if ((this.bothInputsFull(e)) && this.lastButtonNumber == true) {
+    else if ((this.bothInputsFull()) && this.lastButtonNumber == true) {
 
-      if(this.isZeroDiv(e)) {
+      if(this.isZeroDiv()) {
         alert("Can't divide by zero!");
         return;
       }
 
       this.result = this.preformOperation(this.input1, this.input2);
-      this.limitCheck(e);
-      this.sliceResult(e);
+      this.limitCheck();
+      this.sliceResult();
       this.prepareNewOperation(e);
     }
 
@@ -272,17 +272,17 @@ class Calculator {
   }
   
   boundEquals = this.equals.bind(this);
-  equals (e) {
+  equals () {
 
     if (this.operator == "" || this.lastButtonOperator == true) return;   // If operator is empty or user just pressed operator, nothing todo
     if (this.input2 == "" && this.lastOperationNumber == "") return;      // No inputs to work with, otherwise would return NaN
 
-    else if (this.bothInputsFull(e)) {
-      if(this.isZeroDiv(e)) {
+    else if (this.bothInputsFull()) {
+      if(this.isZeroDiv()) {
         alert("Can't divide by zero!");
         return;
       }
-      this.resultToInput1(e);
+      this.resultToInput1();
       this.lastOperationNumber = this.input2
       this.input2 = "";
     }
@@ -290,17 +290,17 @@ class Calculator {
     // If the last button was "equals", then we simply continue the operation
     else if (this.lastButtonEqual == true) {
       this.input2 = this.lastOperationNumber;
-      this.resultToInput1(e);
+      this.resultToInput1();
       this.input2 = "";
     }
     this.setLastButton("equal");
   }
 
   boundBackspace = this.backspace.bind(this);
-  backspace (e) {
+  backspace () {
     if (this.lastButtonNumber != true) return;
-    if (this.input2Write == true) this.delInput2(e);
-    else if (this.input1Write == true) this.delInput1(e);
+    if (this.input2Write == true) this.delInput2();
+    else if (this.input1Write == true) this.delInput1();
   }
 
 }
