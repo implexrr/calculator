@@ -26,7 +26,6 @@ class Calculator {
     this.input1 = "";
     this.result = "";
     results.textContent = "";
-    console.log("First initialization");
   }
 
   // Allows the initialize method to be used outside of the class, more info @https://alephnode.io/07-event-handler-binding/
@@ -34,7 +33,6 @@ class Calculator {
 
   // Resets all calculator variables
   initialize () {
-    console.log("Calculator initialized...");
     this.input1 = "0";
     this.input2 = "";
     this.operator = "";
@@ -120,7 +118,6 @@ class Calculator {
     this.lastButtonEqual = false;
     this.lastButtonOperator = false;
     this.lastButtonNumber = false;
-    console.log(whichButton);
     switch (whichButton) {
       case "operator": this.lastButtonOperator = true; break;
       case "equal": this.lastButtonEqual = true; break;
@@ -151,7 +148,6 @@ class Calculator {
 
   // Delete one character of user input
   delInput (input) {
-    console.log(`erasing ${input}`);
 
     // Check to see if user is about to delete a dot
     let final = this[input].length - 1;
