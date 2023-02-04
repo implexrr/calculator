@@ -15,7 +15,7 @@ git clone git@github.com:implexrr/calculator.git
 Note that the stylesheet and script link paths in this project will need to be changed in order for the CSS/JS files to render properly.
 
 ## Usage/Features
-[Give it a try here!](https://github.com/implexrr/calculator) Keyboard input should work as well.
+[Give it a try here!](https://implexrr.github.io/calculator/) Keyboard input should work as well.
 
 ## Things I learnt creating the project
 - Classes
